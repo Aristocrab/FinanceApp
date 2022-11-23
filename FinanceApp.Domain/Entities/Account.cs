@@ -1,6 +1,6 @@
 ﻿namespace FinanceApp.Domain.Entities;
 
-public class Category
+public class Account
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;

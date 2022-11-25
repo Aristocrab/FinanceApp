@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Accounts\Commands" />
+      <Folder Include="Accounts\Queries" />
+      <Folder Include="Categories\Commands" />
+      <Folder Include="Categories\Queries" />
+      <Folder Include="Transactions\Commands" />
+      <Folder Include="Transactions\Queries" />
+      <Folder Include="Users\Commands" />
+      <Folder Include="Users\Queries" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="11.1.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FinanceApp.Domain\FinanceApp.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

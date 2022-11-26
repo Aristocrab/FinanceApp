@@ -7,18 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Accounts\Commands" />
-      <Folder Include="Accounts\Queries" />
-      <Folder Include="Categories\Commands" />
-      <Folder Include="Categories\Queries" />
-      <Folder Include="Transactions\Commands" />
-      <Folder Include="Transactions\Queries" />
-      <Folder Include="Users\Commands" />
-      <Folder Include="Users\Queries" />
+      <Folder Include="Transactions\Queries\GetByAccount" />
+      <Folder Include="Transactions\Queries\GetByAccountAndCategories" />
+      <Folder Include="Transactions\Queries\GetByCategories" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+      <PackageReference Include="Mapster" Version="7.4.0-pre03" />
       <PackageReference Include="MediatR" Version="11.1.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="7.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
     </ItemGroup>

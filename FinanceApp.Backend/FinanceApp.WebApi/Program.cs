@@ -1,6 +1,5 @@
 using FinanceApp.Application;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,15 +11,22 @@ builder.Services.AddDbContext<FinanceAppDbContext>(options =>
 builder.Services.AddMediatR(typeof(FinanceAppDbContext).Assembly);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
-builder.Services.AddAuthorization();
+builder.Services.AddScoped<DbSeeder>();
 
 var app = builder.Build();
 
-app.UseAuthentication();
-app.UseAuthorization();
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<DbSeeder>();
+    seeder.SeedDb();
+}
+
+app.UseCors(options =>
+{
+    options.AllowAnyMethod();
+    options.AllowAnyHeader();
+    options.AllowAnyOrigin();
+});
 
 app.MapControllers();
 app.UseSwagger();

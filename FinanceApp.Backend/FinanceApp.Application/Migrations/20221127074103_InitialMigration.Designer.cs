@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.Application.Migrations
 {
     [DbContext(typeof(FinanceAppDbContext))]
-    [Migration("20221126174045_InitialMigration")]
+    [Migration("20221127074103_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -30,12 +30,7 @@ namespace FinanceApp.Application.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Accounts");
                 });
@@ -50,12 +45,7 @@ namespace FinanceApp.Application.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Categories");
                 });
@@ -85,63 +75,13 @@ namespace FinanceApp.Application.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("FinanceApp.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Salt")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("FinanceApp.Domain.Entities.Account", b =>
-                {
-                    b.HasOne("FinanceApp.Domain.Entities.User", "User")
-                        .WithMany("Accounts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FinanceApp.Domain.Entities.Category", b =>
-                {
-                    b.HasOne("FinanceApp.Domain.Entities.User", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("FinanceApp.Domain.Entities.Transaction", b =>
@@ -158,17 +98,9 @@ namespace FinanceApp.Application.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinanceApp.Domain.Entities.User", "User")
-                        .WithMany("Transactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Account");
 
                     b.Navigation("Category");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FinanceApp.Domain.Entities.Account", b =>
@@ -178,15 +110,6 @@ namespace FinanceApp.Application.Migrations
 
             modelBuilder.Entity("FinanceApp.Domain.Entities.Category", b =>
                 {
-                    b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("FinanceApp.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Accounts");
-
-                    b.Navigation("Categories");
-
                     b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618

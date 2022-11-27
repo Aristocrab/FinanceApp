@@ -15,8 +15,7 @@ public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsQuery, List<A
     
     public Task<List<AccountDto>> Handle(GetAllAccountsQuery request, CancellationToken cancellationToken)
     {
-        return _dbContext.Accounts.Include(x => x.User)
-            .Where(x => x.User.Id == request.UserId)
+        return _dbContext.Accounts
             .ProjectToType<AccountDto>()
             .ToListAsync(cancellationToken: cancellationToken);
     }

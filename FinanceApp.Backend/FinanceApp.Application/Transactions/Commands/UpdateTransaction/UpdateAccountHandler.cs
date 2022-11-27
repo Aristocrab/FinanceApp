@@ -16,16 +16,16 @@ public class UpdateAccountHandler : IRequestHandler<UpdateTransactionCommand, Gu
     
     public async Task<Guid> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
     {
-        var user = _dbContext.Users
-            .Include(x => x.Transactions)
-            .ThenInclude(x => x.Category)
-            .Include(x => x.Transactions)
-            .ThenInclude(x => x.Account)
-            .FirstOrDefault(x => x.Id == request.UserId);
-        if (user is null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
+        // var user = _dbContext.Users
+        //     .Include(x => x.Transactions)
+        //     .ThenInclude(x => x.Category)
+        //     .Include(x => x.Transactions)
+        //     .ThenInclude(x => x.Account)
+        //     .FirstOrDefault(x => x.Id == request.UserId);
+        // if (user is null)
+        // {
+        //     throw new NotFoundException(nameof(User), request.UserId);
+        // }
         
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
         if (category is null)
@@ -39,7 +39,7 @@ public class UpdateAccountHandler : IRequestHandler<UpdateTransactionCommand, Gu
             throw new NotFoundException(nameof(Account), request.AccountId);
         }
 
-        var transaction = user.Transactions
+        var transaction = _dbContext.Transactions
             .FirstOrDefault(x => x.Id == request.AccountId);
         if (transaction is null)
         {
@@ -49,7 +49,7 @@ public class UpdateAccountHandler : IRequestHandler<UpdateTransactionCommand, Gu
         transaction.Description = request.Description;
         transaction.Amount = request.Amount;
         transaction.Date = request.Date;
-        transaction.User = user;
+        // transaction.User = user;
         transaction.Category = category;
         transaction.Account = account;
         

@@ -6,5 +6,4 @@ public class Account
     public string Name { get; set; } = null!;
 
     public List<Transaction> Transactions { get; set; } = null!;
-    public User User { get; set; } = null!;
 }

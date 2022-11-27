@@ -15,11 +15,11 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
     
     public async Task<Guid> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
     {
-        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
-        if (user is null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
+        // var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        // if (user is null)
+        // {
+        //     throw new NotFoundException(nameof(User), request.UserId);
+        // }
 
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
         if (category is null)
@@ -38,7 +38,7 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
             Description = request.Description,
             Amount = request.Amount,
             Date = request.Date,
-            User = user,
+            // User = user,
             Category = category,
             Account = account
         };

@@ -23,7 +23,6 @@ public class AccountsController : BaseController
     {
         return _mediator.Send(new GetAllAccountsQuery
         {
-            UserId = Guid.Empty // todo
         });
     }
     
@@ -32,7 +31,6 @@ public class AccountsController : BaseController
     {
         return _mediator.Send(new CreateAccountCommand
         {
-            UserId = Guid.Empty,
             Name = createAccountDto.Name
         });
     }
@@ -42,8 +40,8 @@ public class AccountsController : BaseController
     {
         return _mediator.Send(new UpdateAccountCommand
         {
-            UserId = Guid.Empty,
-            Name = updateAccountDto.Name
+            Name = updateAccountDto.Name,
+            AccountId = updateAccountDto.AccountId
         });
     }
     
@@ -52,7 +50,6 @@ public class AccountsController : BaseController
     {
         return _mediator.Send(new DeleteAccountCommand
         {
-            UserId = Guid.Empty,
             AccountId = deleteAccountDto.AccountId
         });
     }

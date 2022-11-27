@@ -23,7 +23,6 @@ public class CategoriesController : BaseController
     {
         return _mediator.Send(new GetAllCategoriesQuery
         {
-            UserId = Guid.Empty // todo
         });
     }
     
@@ -32,7 +31,6 @@ public class CategoriesController : BaseController
     {
         return _mediator.Send(new CreateCategoryCommand
         {
-            UserId = Guid.Empty,
             Name = createCategoryDto.Name
         });
     }
@@ -42,8 +40,8 @@ public class CategoriesController : BaseController
     {
         return _mediator.Send(new UpdateCategoryCommand
         {
-            UserId = Guid.Empty,
-            Name = updateCategoryDto.Name
+            Name = updateCategoryDto.Name,
+            CategoryId = updateCategoryDto.CategoryId
         });
     }
     
@@ -52,7 +50,6 @@ public class CategoriesController : BaseController
     {
         return _mediator.Send(new DeleteCategoryCommand
         {
-            UserId = Guid.Empty,
             CategoryId = deleteCategoryDto.CategoryId
         });
     }

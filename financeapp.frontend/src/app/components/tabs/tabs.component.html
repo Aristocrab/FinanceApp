@@ -1,0 +1,35 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" [destroyOnHide]="false" >
+	<li [ngbNavItem]="1">
+		<a ngbNavLink>All transactions</a>
+		<ng-template ngbNavContent>
+			<app-transactions-list [transactions]="transactions | searchTransaction : searchText"></app-transactions-list>
+		</ng-template>
+	</li>
+	<li [ngbNavItem]="2">
+		<a ngbNavLink>Expenses</a>
+		<ng-template ngbNavContent>
+			<app-transactions-list [transactions]="transactions | searchTransaction : searchText | filterTransactionType : 0"></app-transactions-list>
+		</ng-template>
+	</li>
+	<li [ngbNavItem]="3">
+		<a ngbNavLink>Income</a>
+		<ng-template ngbNavContent>
+			<app-transactions-list [transactions]="transactions | searchTransaction : searchText | filterTransactionType : 1"></app-transactions-list>
+		</ng-template>
+	</li>
+	<li [ngbNavItem]="4">
+		<a ngbNavLink>Transfers</a>
+		<ng-template ngbNavContent>
+			<app-transactions-list [transactions]="transactions | searchTransaction : searchText | filterTransactionType : 2"></app-transactions-list>
+		</ng-template>
+	</li>
+</ul>
+
+<div class="input-group mt-3" style="width: 50%;" >
+	<input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Search" aria-label="Search">
+	<button class="btn btn-outline-secondary" type="button" id="button-addon2">
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+	</button>
+</div>
+
+<div [ngbNavOutlet]="nav" class="mt-3"></div>

@@ -1,0 +1,27 @@
+<div class="charts">
+    <div class="pie-charts">
+        <div class="pie-chart">
+            <canvas baseChart
+                [data]="pieChartData"
+                [options]="expensesChartOptions"
+                type="pie">
+            </canvas>
+        </div>
+    
+        <div class="pie-chart">
+            <canvas baseChart
+                [data]="pieChartData"
+                [options]="incomeChartOptions"
+                type="pie">
+            </canvas>
+        </div>
+    </div>
+    
+    <div class="line-chart">
+        <canvas baseChart
+            [data]="pieChartData"
+            [options]="barChartOptions"
+            type="bar">
+        </canvas>
+    </div>    
+</div>

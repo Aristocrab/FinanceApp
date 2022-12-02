@@ -1,0 +1,16 @@
+.charts {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.pie-charts {
+    display: flex;
+}
+
+.pie-chart {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

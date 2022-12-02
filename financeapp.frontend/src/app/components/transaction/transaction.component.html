@@ -1,0 +1,27 @@
+<div class="card mb-2">
+    <div class="card-body d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-start">
+            <div class="rounded-circle me-2" style="width: 64px; height: 64px; background-color: salmon;"></div>
+            <div class="d-flex flex-column" style="height: 64px; justify-content: space-around;">
+                <span>
+                    <span class="text-secondary">{{transaction.category.name}}</span>
+                    <span class="text-secondary"> / </span>
+                    <span>{{transaction.description}}</span>
+                </span>
+                <span class="text-secondary h6">{{transaction.date | date}}</span>
+            </div>
+        </div>
+        
+        <div [ngSwitch]="transaction.type">
+            <span *ngSwitchCase="0" class="h3 text-success">
+                +{{transaction.amount}}
+            </span>
+            <span *ngSwitchCase="1" class="h3 text-danger">
+                -{{transaction.amount}}
+            </span>
+            <span *ngSwitchDefault class="h3 text-secondary">
+                {{transaction.amount}}
+            </span>
+        </div>
+    </div>
+</div>

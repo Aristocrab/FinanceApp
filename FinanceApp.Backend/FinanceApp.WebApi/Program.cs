@@ -21,11 +21,11 @@ using (var scope = app.Services.CreateScope())
     seeder.SeedDb();
 }
 
-app.UseCors(options =>
+app.UseCors(policyBuilder =>
 {
-    options.AllowAnyMethod();
-    options.AllowAnyHeader();
-    options.AllowAnyOrigin();
+    policyBuilder.AllowAnyHeader();
+    policyBuilder.AllowAnyMethod();
+    policyBuilder.AllowAnyOrigin();
 });
 
 app.MapControllers();

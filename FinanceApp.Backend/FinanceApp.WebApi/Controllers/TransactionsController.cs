@@ -2,6 +2,8 @@
 using FinanceApp.Application.Transactions.Commands.DeleteTransaction;
 using FinanceApp.Application.Transactions.Commands.UpdateTransaction;
 using FinanceApp.Application.Transactions.Queries.GetAll;
+using FinanceApp.Application.Transactions.Queries.GetByType;
+using FinanceApp.Domain.Enums;
 using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Transactions;
 using MediatR;
@@ -21,8 +23,18 @@ public class TransactionsController : BaseController
     [HttpGet]
     public Task<List<TransactionDto>> GetAll()
     {
-        return _mediator.Send(new GetAllTransactionQuery
+        return _mediator.Send(new GetAllTransactionsQuery
         {
+            UserId = Guid.Empty // todo
+        });
+    }
+    
+    [HttpGet("GetByType/{type:int}")]
+    public Task<List<TransactionDto>> GetByType(int type)
+    {
+        return _mediator.Send(new GetTransactionsByTypeQuery
+        {
+            Type = (TransactionType)type,
             UserId = Guid.Empty // todo
         });
     }

@@ -57,11 +57,38 @@ public class DbSeeder
             {
                 Account = accounts[0],
                 Category = categories[0],
-                Amount = 500,
+                Amount = 250,
                 Date = DateTime.Now,
-                Description = "Pizza у Івана",
+                Description = "Піца у Івана",
                 Type = TransactionType.Expense
-            }
+            },
+            new Transaction
+            {
+                Account = accounts[0],
+                Category = categories[1],
+                Amount = 360,
+                Date = DateTime.Today,
+                Description = "36 крилець KFC",
+                Type = TransactionType.Expense
+            },
+            new Transaction
+            {
+                Account = accounts[1],
+                Category = categories[2],
+                Amount = 100,
+                Date = DateTime.Now,
+                Description = "Зарплата",
+                Type = TransactionType.Income
+            },
+            new Transaction
+            {
+                Account = accounts[1],
+                Category = categories[1],
+                Amount = 200,
+                Date = DateTime.Now,
+                Description = "Переказ",
+                Type = TransactionType.Transfer
+            },
         };
         _dbContext.Transactions.AddRange(transactions);
 

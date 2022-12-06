@@ -1,10 +1,6 @@
-<div class="transactions-list" style="margin-bottom: 1.5rem;">
-    <app-transaction *ngFor="let transaction of transactions" [transaction]="transaction" (update)="selectTransaction($event, updateModal)"></app-transaction>
-</div>
-
-<ng-template #updateModal let-modal>
+<ng-template #content let-modal>
 	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Update transaction</h4>
+		<h4 class="modal-title" id="modal-basic-title">New transaction</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body">
@@ -14,15 +10,15 @@
                 <input min="0" type="number" class="form-control" id="amount" [(ngModel)]="amount" name="amount" placeholder="Amount">
 			</div>
             
-            <div class="mb-3" *ngIf="type != 2">
+            <div class="mb-3">
                 <label for="type">Type</label>
                 <select class="form-select" id="type" [(ngModel)]="type" name="type">
-                    <option selected [ngValue]="0">Expense</option>
+                    <option [ngValue]="0">Expense</option>
                     <option [ngValue]="1">Income</option>
                 </select>
             </div>
             
-            <div class="mb-3" *ngIf="type != 2">
+            <div class="mb-3">
                 <label for="category">Category</label>
                 <select class="form-select" id="category" [(ngModel)]="categoryId" name="category">
                     <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
@@ -31,7 +27,7 @@
             
             <div class="mb-3">
                 <label for="date">Date</label>
-                <input type="date" class="form-control" id="date" [ngModel] ="date | date:'yyyy-MM-dd'" (ngModelChange)="date = $event" name="date">
+                <input type="date" class="form-control" id="date" [(ngModel)]="date" name="date">
             </div>
             
             <div class="mb-3">
@@ -47,9 +43,13 @@
             </div>
             
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" (click)="updateTransactions()">Update</button>
+                <button type="button" class="btn btn-outline-dark" (click)="createTransaction()">Create</button>
             </div>
             
 		</form>
 	</div>
 </ng-template>
+
+<button type="button" class="new-button" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="open(content)">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill-rule="evenodd" d="M11.75 4.5a.75.75 0 01.75.75V11h5.75a.75.75 0 010 1.5H12.5v5.75a.75.75 0 01-1.5 0V12.5H5.25a.75.75 0 010-1.5H11V5.25a.75.75 0 01.75-.75z"></path></svg>
+</button>

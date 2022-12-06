@@ -1,0 +1,14 @@
+.settings-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.settings-buttons button {
+    height: 60px;
+    width: 100%;
+}
+
+app-categories-button, app-accounts-button {
+    width: 100%;
+}

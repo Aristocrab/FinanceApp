@@ -1,5 +1,5 @@
 export enum TransactionType {
-    Income = 0,
-    Expense = 1,
+    Expense = 0,
+    Income = 1,
     Transfer = 2
 }

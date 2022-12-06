@@ -1,8 +1,8 @@
 <div class="charts">
     <div class="pie-charts">
-        <div class="pie-chart">
+        <div class="pie-chart" style="position: relative;">
             <canvas baseChart
-                [data]="pieChartData"
+                [data]="expensesData"
                 [options]="expensesChartOptions"
                 type="pie">
             </canvas>
@@ -10,18 +10,27 @@
     
         <div class="pie-chart">
             <canvas baseChart
-                [data]="pieChartData"
+                [data]="incomeData"
                 [options]="incomeChartOptions"
                 type="pie">
             </canvas>
         </div>
     </div>
     
-    <div class="line-chart">
+    <div class="line-chart mt-3">
+        <ul ngbNav #nav="ngbNav" (activeIdChange)="timePeriodChange($event)" [activeId]="selectedTimePeriod" class="nav-tabs" [destroyOnHide]="false" >
+            <li [ngbNavItem]="0">
+                <a ngbNavLink>Daily</a>
+            </li>
+            <li [ngbNavItem]="1">
+                <a ngbNavLink>Montly</a>
+            </li>
+        </ul>
+        
         <canvas baseChart
-            [data]="pieChartData"
-            [options]="barChartOptions"
-            type="bar">
+            [data]="lineData"
+            [options]="lineChartOptions"
+            type="line">
         </canvas>
     </div>    
 </div>

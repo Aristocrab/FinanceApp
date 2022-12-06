@@ -1,19 +1,14 @@
-.account-icon {
-    width: 64px; 
-    height: 64px; 
-    background-color: rgba(250, 128, 114, .5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.account-icon svg {
-    width: 32px;
-    height: 32px;
+.main-btn {
+    height: 60px;
+    width: 100%;
 }
 
 .delete-button {
     cursor: pointer;
+}
+
+.state {
+    height: 1.6rem;
 }
 
 .delete-button, .delete-button svg {
@@ -44,3 +39,4 @@
 .edit-button svg:hover {
     fill: #388e3c;
 }
+

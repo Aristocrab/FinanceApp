@@ -1,15 +1,6 @@
-.account-icon {
-    width: 64px; 
-    height: 64px; 
-    background-color: rgba(250, 128, 114, .5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.account-icon svg {
-    width: 32px;
-    height: 32px;
+.main-btn {
+    height: 60px;
+    width: 100%;
 }
 
 .delete-button {
@@ -43,4 +34,12 @@
 
 .edit-button svg:hover {
     fill: #388e3c;
+}
+
+.categoryName {
+    text-decoration: underline dotted;
+}
+
+.categoryName:hover {
+    text-decoration: underline;
 }

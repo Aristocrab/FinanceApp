@@ -1,5 +1,5 @@
 ﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+using FinanceApp.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +24,9 @@ public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand
         //     throw new NotFoundException(nameof(User), request.UserId);
         // }
 
-        var transaction = _dbContext.Transactions.FirstOrDefault(x => x.Id == request.TransactionId);
+        var transaction = _dbContext.Transactions
+            .Include(x => x.Account)
+            .FirstOrDefault(x => x.Id == request.TransactionId);
         if (transaction is null)
         {
             throw new NotFoundException(nameof(Transactions), request.TransactionId);
@@ -34,6 +36,16 @@ public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand
         // {
         //     throw new UnauthorizedException(user, nameof(Transaction), transaction.Id);
         // }
+
+        switch (transaction.Type)
+        {
+            case TransactionType.Expense:
+                transaction.Account.Balance += transaction.Amount;
+                break;
+            case TransactionType.Income:
+                transaction.Account.Balance -= transaction.Amount;
+                break;
+        }
 
         _dbContext.Transactions.Remove(transaction);
         await _dbContext.SaveChangesAsync(cancellationToken);

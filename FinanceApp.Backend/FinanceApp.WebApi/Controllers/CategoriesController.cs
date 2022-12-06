@@ -2,6 +2,8 @@
 using FinanceApp.Application.Categories.Commands.DeleteCategory;
 using FinanceApp.Application.Categories.Commands.UpdateCategory;
 using FinanceApp.Application.Categories.Queries.GetAllCategories;
+using FinanceApp.Application.Categories.Queries.GetCategoriesStats;
+using FinanceApp.Domain.Enums;
 using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Categories;
 using MediatR;
@@ -21,8 +23,25 @@ public class CategoriesController : BaseController
     [HttpGet]
     public Task<List<CategoryDto>> GetAll()
     {
-        return _mediator.Send(new GetAllCategoriesQuery
+        return _mediator.Send(new GetAllCategoriesQuery());
+    }
+    
+    [HttpGet("stats/{transactionType}")]
+    public Task<List<CategoryStatsDto>> GetCategoryStats(TransactionType transactionType)
+    {
+        return _mediator.Send(new GetCategoriesStats
         {
+            Type = transactionType
+        });
+    }
+    
+    [HttpGet("stats/{transactionType}/{accountId}")]
+    public Task<List<CategoryStatsDto>> GetCategoryStats(TransactionType transactionType, Guid accountId)
+    {
+        return _mediator.Send(new GetCategoriesStats
+        {
+            Type = transactionType,
+            AccountId = accountId
         });
     }
     

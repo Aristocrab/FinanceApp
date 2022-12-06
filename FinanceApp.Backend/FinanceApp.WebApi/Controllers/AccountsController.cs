@@ -21,9 +21,7 @@ public class AccountsController : BaseController
     [HttpGet]
     public Task<List<AccountDto>> GetAll()
     {
-        return _mediator.Send(new GetAllAccountsQuery
-        {
-        });
+        return _mediator.Send(new GetAllAccountsQuery());
     }
     
     [HttpPost("new")]
@@ -31,7 +29,9 @@ public class AccountsController : BaseController
     {
         return _mediator.Send(new CreateAccountCommand
         {
-            Name = createAccountDto.Name
+            Name = createAccountDto.Name,
+            Balance = createAccountDto.Balance,
+            Currency = createAccountDto.Currency
         });
     }
     
@@ -41,7 +41,9 @@ public class AccountsController : BaseController
         return _mediator.Send(new UpdateAccountCommand
         {
             Name = updateAccountDto.Name,
-            AccountId = updateAccountDto.AccountId
+            AccountId = updateAccountDto.AccountId,
+            Balance = updateAccountDto.Balance,
+            Currency = updateAccountDto.Currency
         });
     }
     

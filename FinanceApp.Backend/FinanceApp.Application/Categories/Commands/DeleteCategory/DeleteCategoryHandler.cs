@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,10 +23,17 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, Unit
         //     throw new NotFoundException(nameof(User), request.UserId);
         // }
 
-        var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
+        var category = _dbContext.Categories
+            .Include(x => x.Transactions)
+            .FirstOrDefault(x => x.Id == request.CategoryId);
         if (category is null)
         {
             throw new NotFoundException(nameof(Accounts), request.CategoryId);
+        }
+
+        if (category.Transactions.Any())
+        {
+            throw new Exception();
         }
 
         // if (!user.Categories.Contains(category))

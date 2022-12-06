@@ -1,7 +1,9 @@
 ﻿using FinanceApp.Application.Transactions.Commands.CreateTransaction;
 using FinanceApp.Application.Transactions.Commands.DeleteTransaction;
+using FinanceApp.Application.Transactions.Commands.TransferTransaction;
 using FinanceApp.Application.Transactions.Commands.UpdateTransaction;
 using FinanceApp.Application.Transactions.Queries.GetAll;
+using FinanceApp.Application.Transactions.Queries.GetTransactionsStats;
 using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Transactions;
 using MediatR;
@@ -21,11 +23,21 @@ public class TransactionsController : BaseController
     [HttpGet]
     public Task<List<TransactionDto>> GetAll()
     {
-        return _mediator.Send(new GetAllTransactionQuery
+        return _mediator.Send(new GetAllTransactionsQuery
         {
             UserId = Guid.Empty // todo
         });
     }
+    
+    [HttpGet("stats/{period}")]
+    public Task<List<TransactionStatsDto>> GetTransactionsStats(TimePeriod period)
+    {
+        return _mediator.Send(new GetTransactionsStatsQuery
+        {
+            Period = period
+        });
+    }
+    
     
     [HttpPost("new")]
     public Task<Guid> CreateTransaction([FromBody] CreateTransactionDto createTransactionDto)
@@ -39,6 +51,20 @@ public class TransactionsController : BaseController
             Date = createTransactionDto.Date,
             Description = createTransactionDto.Description,
             Type = createTransactionDto.Type
+        });
+    }
+    
+    [HttpPost("transfer")]
+    public Task<Guid> TransferTransaction([FromBody] TransferTransactionDto transferTransactionDto)
+    {
+        return _mediator.Send(new TransferTransactionCommand
+        {
+            UserId = Guid.Empty,
+            AccountFromId = transferTransactionDto.AccountFromId,
+            AccountToId = transferTransactionDto.AccountToId,
+            Amount = transferTransactionDto.Amount,
+            Date = transferTransactionDto.Date,
+            Description = transferTransactionDto.Description,
         });
     }
     

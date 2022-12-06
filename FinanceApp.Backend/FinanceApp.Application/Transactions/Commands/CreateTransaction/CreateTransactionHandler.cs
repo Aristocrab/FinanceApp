@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Application.Common.Exceptions;
 using FinanceApp.Domain.Entities;
+using FinanceApp.Domain.Enums;
 using MediatR;
 
 namespace FinanceApp.Application.Transactions.Commands.CreateTransaction;
@@ -38,14 +39,26 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
             Description = request.Description,
             Amount = request.Amount,
             Date = request.Date,
-            // User = user,
+            Type = request.Type,
             Category = category,
             Account = account
         };
 
+        switch (transaction.Type)
+        {
+            case TransactionType.Expense:
+                account.Balance -= transaction.Amount;
+                break;
+            case TransactionType.Income:
+                account.Balance += transaction.Amount;
+                break;
+            default:
+                throw new Exception();
+        }
+
         _dbContext.Transactions.Add(transaction);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return account.Id;
+        return transaction.Id;
     }
 }

@@ -1,7 +1,5 @@
 ﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Accounts.Commands.UpdateAccount;
 
@@ -36,6 +34,8 @@ public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand, Guid>
         // }
 
         account.Name = request.Name;
+        account.Balance = request.Balance;
+        account.Currency = request.Currency;
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return account.Id;

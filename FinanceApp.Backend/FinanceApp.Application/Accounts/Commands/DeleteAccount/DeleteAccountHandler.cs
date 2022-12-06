@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +23,9 @@ public class DeleteAccountHandler : IRequestHandler<DeleteAccountCommand, Unit>
         //     throw new NotFoundException(nameof(User), request.UserId);
         // }
 
-        var account = _dbContext.Accounts.FirstOrDefault(x => x.Id == request.AccountId);
+        var account = _dbContext.Accounts
+            .Include(x => x.Transactions)
+            .FirstOrDefault(x => x.Id == request.AccountId);
         if (account is null)
         {
             throw new NotFoundException(nameof(Accounts), request.AccountId);
@@ -34,6 +35,11 @@ public class DeleteAccountHandler : IRequestHandler<DeleteAccountCommand, Unit>
         // {
         //     throw new UnauthorizedException(user, nameof(Account), account.Id);
         // }
+
+        if (account.Transactions.Any())
+        {
+            throw new Exception();
+        }
 
         _dbContext.Accounts.Remove(account);
         await _dbContext.SaveChangesAsync(cancellationToken);

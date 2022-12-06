@@ -1,15 +1,15 @@
 ﻿using FinanceApp.Application.Common.Exceptions;
 using FinanceApp.Domain.Entities;
+using FinanceApp.Domain.Enums;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Transactions.Commands.UpdateTransaction;
 
-public class UpdateAccountHandler : IRequestHandler<UpdateTransactionCommand, Guid>
+public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand, Guid>
 {
     private readonly FinanceAppDbContext _dbContext;
 
-    public UpdateAccountHandler(FinanceAppDbContext dbContext)
+    public UpdateTransactionHandler(FinanceAppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -26,9 +26,16 @@ public class UpdateAccountHandler : IRequestHandler<UpdateTransactionCommand, Gu
         // {
         //     throw new NotFoundException(nameof(User), request.UserId);
         // }
+
+        var transaction = _dbContext.Transactions
+            .FirstOrDefault(x => x.Id == request.TransactionId);
+        if (transaction is null)
+        {
+            throw new NotFoundException(nameof(Transactions), request.TransactionId);
+        }
         
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
-        if (category is null)
+        if (category is null && transaction.Type != TransactionType.Transfer)
         {
             throw new NotFoundException(nameof(Category), request.CategoryId);
         }
@@ -39,16 +46,28 @@ public class UpdateAccountHandler : IRequestHandler<UpdateTransactionCommand, Gu
             throw new NotFoundException(nameof(Account), request.AccountId);
         }
 
-        var transaction = _dbContext.Transactions
-            .FirstOrDefault(x => x.Id == request.AccountId);
-        if (transaction is null)
+        if (transaction.Type == TransactionType.Expense)
         {
-            throw new NotFoundException(nameof(Transactions), request.TransactionId);
+            account.Balance += transaction.Amount;
+        }
+        else if (transaction.Type == TransactionType.Income)
+        {
+            account.Balance -= transaction.Amount;
+        }
+        
+        if (request.Type == TransactionType.Expense)
+        {
+            account.Balance -= request.Amount;
+        }
+        else if (request.Type == TransactionType.Income)
+        {
+            account.Balance += request.Amount;
         }
 
         transaction.Description = request.Description;
         transaction.Amount = request.Amount;
         transaction.Date = request.Date;
+        transaction.Type = request.Type;
         // transaction.User = user;
         transaction.Category = category;
         transaction.Account = account;

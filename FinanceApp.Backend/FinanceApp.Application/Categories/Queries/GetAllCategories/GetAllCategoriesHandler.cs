@@ -1,5 +1,4 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Entities;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +23,16 @@ public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, Li
         // {
         //     throw new NotFoundException(nameof(User), request.UserId);
         // }
+        
+        TypeAdapterConfig<Category, CategoryDto>
+            .NewConfig()
+            .Map(dest => dest.TransactionsCount,
+                src => src.Transactions.Count);
 
-        return Task.FromResult(_dbContext.Categories.Adapt<List<CategoryDto>>());
+        return Task.FromResult(
+            _dbContext.Categories
+                .Include(x => x.Transactions)
+                .Adapt<List<CategoryDto>>()
+            );
     }
 }

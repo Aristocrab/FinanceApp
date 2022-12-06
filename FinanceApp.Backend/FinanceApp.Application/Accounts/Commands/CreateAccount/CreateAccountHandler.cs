@@ -1,5 +1,4 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Entities;
 using MediatR;
 
 namespace FinanceApp.Application.Accounts.Commands.CreateAccount;
@@ -25,6 +24,8 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Guid>
         var account = new Account
         {
             Name = request.Name,
+            Balance = request.Balance,
+            Currency = request.Currency
             // User = user
         };
 

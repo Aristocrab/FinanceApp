@@ -14,19 +14,11 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Guid>
     
     public async Task<Guid> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
-
-        // if (user is null)
-        // {
-            // throw new NotFoundException(nameof(User), request.UserId);
-        // }
-
         var account = new Account
         {
             Name = request.Name,
             Balance = request.Balance,
             Currency = request.Currency
-            // User = user
         };
 
         _dbContext.Accounts.Add(account);

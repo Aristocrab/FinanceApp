@@ -1,5 +1,4 @@
-﻿using FinanceApp.Domain.Entities;
-using Mapster;
+﻿using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,19 +15,6 @@ public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, Li
 
     public Task<List<CategoryDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users
-        //     .Include(x => x.Accounts)
-        //     .FirstOrDefault(x => x.Id == request.UserId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException(nameof(User), request.UserId);
-        // }
-        
-        TypeAdapterConfig<Category, CategoryDto>
-            .NewConfig()
-            .Map(dest => dest.TransactionsCount,
-                src => src.Transactions.Count);
-
         return Task.FromResult(
             _dbContext.Categories
                 .Include(x => x.Transactions)

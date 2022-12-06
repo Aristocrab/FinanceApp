@@ -1,6 +1,6 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
+using FinanceApp.Domain.Exceptions;
 using MediatR;
 
 namespace FinanceApp.Application.Transactions.Commands.UpdateTransaction;
@@ -16,17 +16,6 @@ public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand
     
     public async Task<Guid> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users
-        //     .Include(x => x.Transactions)
-        //     .ThenInclude(x => x.Category)
-        //     .Include(x => x.Transactions)
-        //     .ThenInclude(x => x.Account)
-        //     .FirstOrDefault(x => x.Id == request.UserId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException(nameof(User), request.UserId);
-        // }
-
         var transaction = _dbContext.Transactions
             .FirstOrDefault(x => x.Id == request.TransactionId);
         if (transaction is null)
@@ -46,29 +35,30 @@ public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand
             throw new NotFoundException(nameof(Account), request.AccountId);
         }
 
-        if (transaction.Type == TransactionType.Expense)
+        switch (transaction.Type)
         {
-            account.Balance += transaction.Amount;
-        }
-        else if (transaction.Type == TransactionType.Income)
-        {
-            account.Balance -= transaction.Amount;
+            case TransactionType.Expense:
+                account.Balance += transaction.Amount;
+                break;
+            case TransactionType.Income:
+                account.Balance -= transaction.Amount;
+                break;
         }
         
-        if (request.Type == TransactionType.Expense)
+        switch (request.Type)
         {
-            account.Balance -= request.Amount;
-        }
-        else if (request.Type == TransactionType.Income)
-        {
-            account.Balance += request.Amount;
+            case TransactionType.Expense:
+                account.Balance -= request.Amount;
+                break;
+            case TransactionType.Income:
+                account.Balance += request.Amount;
+                break;
         }
 
         transaction.Description = request.Description;
         transaction.Amount = request.Amount;
         transaction.Date = request.Date;
         transaction.Type = request.Type;
-        // transaction.User = user;
         transaction.Category = category;
         transaction.Account = account;
         

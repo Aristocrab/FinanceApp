@@ -1,6 +1,6 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
+using FinanceApp.Domain.Exceptions;
 using MediatR;
 
 namespace FinanceApp.Application.Transactions.Commands.CreateTransaction;
@@ -16,12 +16,6 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
     
     public async Task<Guid> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException(nameof(User), request.UserId);
-        // }
-
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
         if (category is null)
         {

@@ -3,5 +3,5 @@
 public enum TimePeriod
 {
     Day,
-    Month,
+    Month
 }

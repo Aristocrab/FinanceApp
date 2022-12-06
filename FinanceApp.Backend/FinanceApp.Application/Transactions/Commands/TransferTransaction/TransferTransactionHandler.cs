@@ -1,6 +1,6 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
+using FinanceApp.Domain.Exceptions;
 using MediatR;
 
 namespace FinanceApp.Application.Transactions.Commands.TransferTransaction;
@@ -16,11 +16,10 @@ public class TransferTransactionHandler : IRequestHandler<TransferTransactionCom
     
     public async Task<Guid> Handle(TransferTransactionCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException(nameof(User), request.UserId);
-        // }
+        if(request.AccountFromId == request.AccountToId)
+        {
+            throw new ForbiddenException();
+        }
         
         var accountFrom = _dbContext.Accounts.FirstOrDefault(x => x.Id == request.AccountFromId);
         if (accountFrom is null)

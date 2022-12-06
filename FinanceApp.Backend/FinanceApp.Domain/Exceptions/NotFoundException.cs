@@ -1,4 +1,4 @@
-﻿namespace FinanceApp.Application.Common.Exceptions;
+﻿namespace FinanceApp.Domain.Exceptions;
 
 public class NotFoundException : Exception
 {

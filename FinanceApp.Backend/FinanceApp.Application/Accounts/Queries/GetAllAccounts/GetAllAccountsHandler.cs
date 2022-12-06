@@ -1,5 +1,4 @@
-﻿using FinanceApp.Domain.Entities;
-using Mapster;
+﻿using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,11 +15,6 @@ public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsQuery, List<A
     
     public Task<List<AccountDto>> Handle(GetAllAccountsQuery request, CancellationToken cancellationToken)
     {
-        TypeAdapterConfig<Account, AccountDto>
-            .NewConfig()
-            .Map(dest => dest.TransactionsCount,
-                src => src.Transactions.Count);
-        
         return _dbContext.Accounts
             .Include(x => x.Transactions)
             .ProjectToType<AccountDto>()

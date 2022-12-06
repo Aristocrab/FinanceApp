@@ -1,4 +1,4 @@
-﻿using FinanceApp.Application.Common.Exceptions;
+﻿using FinanceApp.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,14 +15,6 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, Unit
     
     public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users
-        //     .Include(x => x.Categories)
-        //     .FirstOrDefault(x => x.Id == request.UserId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException(nameof(User), request.UserId);
-        // }
-
         var category = _dbContext.Categories
             .Include(x => x.Transactions)
             .FirstOrDefault(x => x.Id == request.CategoryId);
@@ -35,11 +27,6 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, Unit
         {
             throw new Exception();
         }
-
-        // if (!user.Categories.Contains(category))
-        // {
-        //     throw new UnauthorizedException(user, nameof(Account), category.Id);
-        // }
 
         _dbContext.Categories.Remove(category);
         await _dbContext.SaveChangesAsync(cancellationToken);

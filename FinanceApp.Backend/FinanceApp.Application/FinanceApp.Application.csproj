@@ -7,9 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Transactions\Queries\GetByAccount" />
-      <Folder Include="Transactions\Queries\GetByAccountAndCategories" />
-      <Folder Include="Transactions\Queries\GetByCategories" />
+      <Folder Include="Common\Validators" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,3 +1,4 @@
+import { Guid } from "guid-typescript";
 import { AccountDto } from "../Accounts/AccountDto";
 import { CategoryDto } from "../Categories/CategoryDto";
 import { TransactionType } from "./TransactionType";

@@ -19,6 +19,7 @@ import { FilterTransactionsByAccountPipe } from './pipes/filter-transaction-by-a
 import { ButtonsComponent } from './components/buttons/buttons.component';
 import { CategoriesButtonComponent } from './components/buttons/categories-button/categories-button.component';
 import { AccountsButtonComponent } from './components/buttons/accounts-button/accounts-button.component';
+import { AlertsComponent } from './components/alerts/alerts.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AccountsButtonComponent } from './components/buttons/accounts-button/ac
     FilterTransactionsByAccountPipe,
     ButtonsComponent,
     CategoriesButtonComponent,
-    AccountsButtonComponent
+    AccountsButtonComponent,
+    AlertsComponent
   ],
   imports: [
     BrowserModule,

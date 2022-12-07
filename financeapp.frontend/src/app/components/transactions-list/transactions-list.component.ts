@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Guid } from 'guid-typescript';
 import { AccountDto } from 'src/app/models/Accounts/AccountDto';
 import { CategoryDto } from 'src/app/models/Categories/CategoryDto';
 import { TransactionDto } from 'src/app/models/Transactions/TransactionDto';
+import { UpdateTransactionDto } from 'src/app/models/Transactions/UpdateTransactionDto';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
@@ -15,13 +17,15 @@ import { TransactionsService } from 'src/app/services/transactions.service';
 })
 export class TransactionsListComponent implements OnInit {
   
-  id: string | undefined = undefined;
-  amount: number | undefined = undefined;
-  type: number = 0;
-  categoryId: string | undefined = undefined;
-  accountId: string | undefined = undefined;
-  date: Date | undefined = undefined;
-  description: string | undefined = undefined;
+  updateTransactionDto: UpdateTransactionDto = {
+    transactionId: Guid.createEmpty().toString(),
+    description: '',
+    accountId: Guid.createEmpty().toString(),
+    categoryId: Guid.createEmpty().toString(),
+    amount: 0,
+    type: 0,
+    date: new Date().toISOString().split('T')[0]
+  };
   
   categories: CategoryDto[] | undefined;
   accounts: AccountDto[] | undefined;
@@ -51,14 +55,12 @@ export class TransactionsListComponent implements OnInit {
   }
   
   selectTransaction(transaction: TransactionDto, content: any) {
-    this.id = transaction.id;
-    this.amount = transaction.amount;
-    this.type = transaction.type;
-    this.categoryId = transaction.category?.id;
-    this.accountId = transaction.account!.id;
-    let date = new Date(transaction.date);
-    this.date = date;
-    this.description = transaction.description;
+    this.updateTransactionDto.amount = transaction.amount;
+    this.updateTransactionDto.type = transaction.type;
+    this.updateTransactionDto.categoryId = transaction.category!.id;
+    this.updateTransactionDto.accountId = transaction.account!.id;
+    this.updateTransactionDto.date = transaction.date.toISOString().split('T')[0];
+    this.updateTransactionDto.description = transaction.description;
     
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -67,15 +69,8 @@ export class TransactionsListComponent implements OnInit {
   }
   
   updateTransactions() {
-      this.transactionsService.updateTransaction({
-        transactionId: this.id!,
-        amount: this.amount!,
-        type: this.type,
-        categoryId: this.categoryId!,
-        accountId: this.accountId!,
-        date: this.date!,
-        description: this.description!
-      }).subscribe(() => {
+      this.transactionsService.updateTransaction(this.updateTransactionDto)
+      .subscribe(() => {
         this.transactionsService.fetchTransactions();
         
         this.transactionsService.incomeTransactionsUpdated.emit();

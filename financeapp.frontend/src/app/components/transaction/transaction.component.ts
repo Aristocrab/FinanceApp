@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Guid } from 'guid-typescript';
 import { TransactionDto } from 'src/app/models/Transactions/TransactionDto';
 import { TransactionType } from 'src/app/models/Transactions/TransactionType';
 import { TransactionsService } from 'src/app/services/transactions.service';

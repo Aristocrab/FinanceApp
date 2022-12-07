@@ -1,9 +1,10 @@
-import { TransactionType } from "./TransactionType";
+import { Guid } from "guid-typescript";
 
 export interface TransferTransactionDto {
-    amount: number;
-    description: string;
     accountFromId: string;
     accountToId: string;
-    date: Date;        
+    
+    amount: number;
+    description: string;
+    date: string;        
 }

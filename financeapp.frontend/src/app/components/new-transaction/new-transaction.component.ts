@@ -1,7 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Guid } from 'guid-typescript';
 import { AccountDto } from 'src/app/models/Accounts/AccountDto';
 import { CategoryDto } from 'src/app/models/Categories/CategoryDto';
+import { CreateTransactionDto } from 'src/app/models/Transactions/CreateTransactionDto';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
@@ -12,12 +14,14 @@ import { TransactionsService } from 'src/app/services/transactions.service';
   styleUrls: ['./new-transaction.component.css']
 })
 export class NewTransactionComponent implements OnInit {
-  amount: number | undefined = undefined;
-  type: number = 0;
-  categoryId: string | undefined = undefined;
-  accountId: string | undefined = undefined;
-  date: Date | undefined = undefined;
-  description: string | undefined = undefined;
+  createTransactionDto: CreateTransactionDto = {
+    description: '',
+    accountId: Guid.createEmpty().toString(),
+    categoryId: Guid.createEmpty().toString(),
+    amount: 0,
+    type: 0,
+    date: new Date().toISOString().split('T')[0]
+  }; 
   
   categories: CategoryDto[] | undefined;
   accounts: AccountDto[] | undefined;
@@ -44,20 +48,13 @@ export class NewTransactionComponent implements OnInit {
   }
   
   createTransaction() {
-    this.transactionsService.createTransaction({
-      amount: this.amount!,
-      type: this.type,
-      categoryId: this.categoryId!,
-      accountId: this.accountId!,
-      date: this.date!,
-      description: this.description!
-    }).subscribe(() => {
+    this.transactionsService.createTransaction(this.createTransactionDto!).subscribe(() => {
       this.modalService.dismissAll();
       this.transactionsService.fetchTransactions();
       
-      if(this.type == 0) {
+      if(this.createTransactionDto.type == 0) {
         this.transactionsService.expensesTransactionsUpdated.emit();
-      } else if(this.type == 1) {
+      } else if(this.createTransactionDto.type == 1) {
         this.transactionsService.incomeTransactionsUpdated.emit();
       }
     });

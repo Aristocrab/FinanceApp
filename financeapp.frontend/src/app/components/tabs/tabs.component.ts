@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Guid } from 'guid-typescript';
 import { AccountDto } from 'src/app/models/Accounts/AccountDto';
+import { TransferTransactionDto } from 'src/app/models/Transactions/TransferTransactionDto';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 
@@ -16,11 +18,13 @@ export class TabsComponent implements OnInit {
   accounts: AccountDto[] | undefined;
   selectedAccountId: string | undefined;
   
-  amount: number | undefined;
-  accountFromId: string | undefined;
-  accountToId: string | undefined;
-  date: Date | undefined;
-  description: string | undefined;
+  transferTransactionDto: TransferTransactionDto = {
+    amount: 0,
+    accountFromId: Guid.createEmpty().toString(),
+    accountToId: Guid.createEmpty().toString(),
+    date: new Date().toISOString().split('T')[0],
+    description: ''
+  }
   
   constructor(public transactionsService: TransactionsService, 
     public accountsService: AccountsService,
@@ -59,13 +63,7 @@ export class TabsComponent implements OnInit {
 	}
   
   transferTransaction() {
-    this.transactionsService.transferTransaction({
-      amount: this.amount!,
-      accountFromId: this.accountFromId!,
-      accountToId: this.accountToId!,
-      date: this.date!,
-      description: this.description!
-    }).subscribe(() => {
+    this.transactionsService.transferTransaction(this.transferTransactionDto).subscribe(() => {
       this.modalService.dismissAll();
       this.transactionsService.fetchTransactions();
       

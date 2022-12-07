@@ -2,10 +2,11 @@ import { TransactionType } from "./TransactionType";
 
 export interface UpdateTransactionDto {
     transactionId: string;
-    amount: number;
-    description: string;
     categoryId: string;
     accountId: string;
+    
+    amount: number;
+    description: string;
     type: TransactionType;
-    date: Date;        
+    date: string;        
 }

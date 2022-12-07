@@ -7,12 +7,12 @@
 		<form>
 			<div class="mb-3">
 				<label for="amount">Amount</label>
-                <input min="0" type="number" class="form-control" id="amount" [(ngModel)]="amount" name="amount" placeholder="Amount">
+                <input min="0" type="number" class="form-control" id="amount" [(ngModel)]="createTransactionDto.amount" name="amount" placeholder="Amount">
 			</div>
             
             <div class="mb-3">
                 <label for="type">Type</label>
-                <select class="form-select" id="type" [(ngModel)]="type" name="type">
+                <select class="form-select" id="type" [(ngModel)]="createTransactionDto.type" name="type">
                     <option [ngValue]="0">Expense</option>
                     <option [ngValue]="1">Income</option>
                 </select>
@@ -20,24 +20,24 @@
             
             <div class="mb-3">
                 <label for="category">Category</label>
-                <select class="form-select" id="category" [(ngModel)]="categoryId" name="category">
+                <select class="form-select" id="category" [(ngModel)]="createTransactionDto.categoryId" name="category">
                     <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
                 </select>
             </div>
             
             <div class="mb-3">
                 <label for="date">Date</label>
-                <input type="date" class="form-control" id="date" [(ngModel)]="date" name="date">
+                <input type="date" class="form-control" id="date" [(ngModel)]="createTransactionDto.date" name="date">
             </div>
             
             <div class="mb-3">
                 <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" [(ngModel)]="description" name="description" placeholder="Description">
+                <input type="text" class="form-control" id="description" [(ngModel)]="createTransactionDto.description" name="description" placeholder="Description">
             </div>
             
             <div class="mb-3">
                 <label for="account">Account</label>
-                <select class="form-select" id="account" [(ngModel)]="accountId" name="account">
+                <select class="form-select" id="account" [(ngModel)]="createTransactionDto.accountId" name="account">
                     <option *ngFor="let account of accounts" [ngValue]="account.id">{{account.name}}</option>
                 </select>
             </div>

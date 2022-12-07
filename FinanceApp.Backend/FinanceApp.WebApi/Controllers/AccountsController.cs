@@ -4,6 +4,7 @@ using FinanceApp.Application.Accounts.Commands.UpdateAccount;
 using FinanceApp.Application.Accounts.Queries.GetAllAccounts;
 using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Accounts;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,32 +28,18 @@ public class AccountsController : BaseController
     [HttpPost("new")]
     public Task<Guid> CreateAccount([FromBody] CreateAccountDto createAccountDto)
     {
-        return _mediator.Send(new CreateAccountCommand
-        {
-            Name = createAccountDto.Name,
-            Balance = createAccountDto.Balance,
-            Currency = createAccountDto.Currency
-        });
+        return _mediator.Send(createAccountDto.Adapt<CreateAccountCommand>());
     }
     
     [HttpPut("update")]
     public Task<Guid> UpdateAccount([FromBody] UpdateAccountDto updateAccountDto)
     {
-        return _mediator.Send(new UpdateAccountCommand
-        {
-            Name = updateAccountDto.Name,
-            AccountId = updateAccountDto.AccountId,
-            Balance = updateAccountDto.Balance,
-            Currency = updateAccountDto.Currency
-        });
+        return _mediator.Send(updateAccountDto.Adapt<UpdateAccountCommand>());
     }
     
     [HttpDelete("delete")]
     public Task DeleteAccount([FromBody] DeleteAccountDto deleteAccountDto)
     {
-        return _mediator.Send(new DeleteAccountCommand
-        {
-            AccountId = deleteAccountDto.AccountId
-        });
+        return _mediator.Send(deleteAccountDto.Adapt<DeleteAccountCommand>());
     }
 }

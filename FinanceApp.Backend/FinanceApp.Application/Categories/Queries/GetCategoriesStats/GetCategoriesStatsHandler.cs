@@ -1,21 +1,30 @@
 ﻿using FinanceApp.Application.Categories.Queries.GetAllCategories;
+using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Categories.Queries.GetCategoriesStats;
 
-public class GetCategoriesStatsHandler : IRequestHandler<GetCategoriesStats, List<CategoryStatsDto>>
+public class GetCategoriesStatsHandler : IRequestHandler<GetCategoriesStatsQuery, List<CategoryStatsDto>>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<GetCategoriesStatsQuery> _validator;
 
-    public GetCategoriesStatsHandler(FinanceAppDbContext dbContext)
+    public GetCategoriesStatsHandler(FinanceAppDbContext dbContext, IValidator<GetCategoriesStatsQuery> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
 
-    public async Task<List<CategoryStatsDto>> Handle(GetCategoriesStats request, CancellationToken cancellationToken)
+    public async Task<List<CategoryStatsDto>> Handle(GetCategoriesStatsQuery request, CancellationToken cancellationToken)
     {
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
         var transactions = _dbContext.Transactions
             .Include(x => x.Category)
             .Where(x => x.Type == request.Type);

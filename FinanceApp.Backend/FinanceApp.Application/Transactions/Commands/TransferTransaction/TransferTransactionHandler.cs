@@ -1,6 +1,7 @@
 ﻿using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
 using FinanceApp.Domain.Exceptions;
+using FluentValidation;
 using MediatR;
 
 namespace FinanceApp.Application.Transactions.Commands.TransferTransaction;
@@ -8,14 +9,22 @@ namespace FinanceApp.Application.Transactions.Commands.TransferTransaction;
 public class TransferTransactionHandler : IRequestHandler<TransferTransactionCommand, Guid>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<TransferTransactionCommand> _validator;
 
-    public TransferTransactionHandler(FinanceAppDbContext dbContext)
+    public TransferTransactionHandler(FinanceAppDbContext dbContext, IValidator<TransferTransactionCommand> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
     
     public async Task<Guid> Handle(TransferTransactionCommand request, CancellationToken cancellationToken)
     {
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
         if(request.AccountFromId == request.AccountToId)
         {
             throw new ForbiddenException();

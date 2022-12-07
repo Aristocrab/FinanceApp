@@ -1,6 +1,7 @@
 ﻿using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
 using FinanceApp.Domain.Exceptions;
+using FluentValidation;
 using MediatR;
 
 namespace FinanceApp.Application.Transactions.Commands.UpdateTransaction;
@@ -8,14 +9,22 @@ namespace FinanceApp.Application.Transactions.Commands.UpdateTransaction;
 public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand, Guid>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<UpdateTransactionCommand> _validator;
 
-    public UpdateTransactionHandler(FinanceAppDbContext dbContext)
+    public UpdateTransactionHandler(FinanceAppDbContext dbContext, IValidator<UpdateTransactionCommand> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
     
     public async Task<Guid> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
     {
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
         var transaction = _dbContext.Transactions
             .FirstOrDefault(x => x.Id == request.TransactionId);
         if (transaction is null)

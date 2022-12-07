@@ -6,6 +6,7 @@ using FinanceApp.Application.Categories.Queries.GetCategoriesStats;
 using FinanceApp.Domain.Enums;
 using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Categories;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,7 @@ public class CategoriesController : BaseController
     [HttpGet("stats/{transactionType}")]
     public Task<List<CategoryStatsDto>> GetCategoryStats(TransactionType transactionType)
     {
-        return _mediator.Send(new GetCategoriesStats
+        return _mediator.Send(new GetCategoriesStatsQuery
         {
             Type = transactionType
         });
@@ -38,7 +39,7 @@ public class CategoriesController : BaseController
     [HttpGet("stats/{transactionType}/{accountId}")]
     public Task<List<CategoryStatsDto>> GetCategoryStats(TransactionType transactionType, Guid accountId)
     {
-        return _mediator.Send(new GetCategoriesStats
+        return _mediator.Send(new GetCategoriesStatsQuery
         {
             Type = transactionType,
             AccountId = accountId
@@ -48,28 +49,18 @@ public class CategoriesController : BaseController
     [HttpPost("new")]
     public Task<Guid> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
     {
-        return _mediator.Send(new CreateCategoryCommand
-        {
-            Name = createCategoryDto.Name
-        });
+        return _mediator.Send(createCategoryDto.Adapt<CreateCategoryCommand>());
     }
     
     [HttpPut("update")]
     public Task<Guid> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
     {
-        return _mediator.Send(new UpdateCategoryCommand
-        {
-            Name = updateCategoryDto.Name,
-            CategoryId = updateCategoryDto.CategoryId
-        });
+        return _mediator.Send(updateCategoryDto.Adapt<UpdateCategoryCommand>());
     }
     
     [HttpDelete("delete")]
     public Task DeleteCategory([FromBody] DeleteCategoryDto deleteCategoryDto)
     {
-        return _mediator.Send(new DeleteCategoryCommand
-        {
-            CategoryId = deleteCategoryDto.CategoryId
-        });
+        return _mediator.Send(deleteCategoryDto.Adapt<DeleteCategoryCommand>());
     }
 }

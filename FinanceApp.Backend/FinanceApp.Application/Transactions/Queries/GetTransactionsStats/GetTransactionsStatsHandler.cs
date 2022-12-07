@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using FluentValidation;
 using MediatR;
 
 namespace FinanceApp.Application.Transactions.Queries.GetTransactionsStats;
@@ -6,14 +7,22 @@ namespace FinanceApp.Application.Transactions.Queries.GetTransactionsStats;
 public class GetTransactionsStatsHandler : IRequestHandler<GetTransactionsStatsQuery, List<TransactionStatsDto>>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<GetTransactionsStatsQuery> _validator;
 
-    public GetTransactionsStatsHandler(FinanceAppDbContext dbContext)
+    public GetTransactionsStatsHandler(FinanceAppDbContext dbContext, IValidator<GetTransactionsStatsQuery> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
 
     public async Task<List<TransactionStatsDto>> Handle(GetTransactionsStatsQuery request, CancellationToken cancellationToken)
     {
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
         IEnumerable<TransactionStatsDto> transactionStats = null!;
         
         switch (request.Period)

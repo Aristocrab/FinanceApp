@@ -1,6 +1,7 @@
 ﻿using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
 using FinanceApp.Domain.Exceptions;
+using FluentValidation;
 using MediatR;
 
 namespace FinanceApp.Application.Transactions.Commands.CreateTransaction;
@@ -8,14 +9,22 @@ namespace FinanceApp.Application.Transactions.Commands.CreateTransaction;
 public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand, Guid>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<CreateTransactionCommand> _validator;
 
-    public CreateTransactionHandler(FinanceAppDbContext dbContext)
+    public CreateTransactionHandler(FinanceAppDbContext dbContext, IValidator<CreateTransactionCommand> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
     
     public async Task<Guid> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
     {
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
         if (category is null)
         {
@@ -46,8 +55,6 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
             case TransactionType.Income:
                 account.Balance += transaction.Amount;
                 break;
-            default:
-                throw new Exception();
         }
 
         _dbContext.Transactions.Add(transaction);

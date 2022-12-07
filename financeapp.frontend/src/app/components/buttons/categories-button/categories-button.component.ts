@@ -18,15 +18,26 @@ export class CategoriesButtonComponent implements OnInit {
   categoryName: string | undefined;
   
   constructor(private modalService: NgbModal,
-    private accountsService: AccountsService,
     private categoriesService: CategoriesService,
     private transactionsService: TransactionsService
-  ) { }
+    ) { }
   
   ngOnInit(): void {    
     this.categoriesService.getCategories().subscribe(result => {
       this.categories = result;
     });    
+    
+    this.transactionsService.expensesTransactionsUpdated.subscribe(() => {
+      this.categoriesService.getCategories().subscribe(result => {
+        this.categories = result;
+      });
+    });
+    
+    this.transactionsService.incomeTransactionsUpdated.subscribe(() => {
+      this.categoriesService.getCategories().subscribe(result => {
+        this.categories = result;
+      });
+    });
   }
   
   open(content: any) {
@@ -97,43 +108,4 @@ export class CategoriesButtonComponent implements OnInit {
       this.categoriesService.categoriesUpdated.emit();
     });
   }
-  
-  // updateAccount(accountId: string) {
-  //   console.log('updateAccount');
-  //   // this.accountsService.updateAccount({
-  //   //   accountId: accountId,
-  //   //   name: name
-  //   // }).subscribe(() => {
-  //   //   this.accountsService.getAccounts().subscribe(result => {
-  //   //     this.accounts = result;
-  //   //   });
-      
-  //   //   this.accountsService.selectedAccountUpdated.emit();
-  //   // });
-  // }
-  
-  // createAccount() {
-  //   this.accountsService.createAccount({
-  //     name: this.accountName!
-  //   }).subscribe(() => {
-  //     this.accountsService.getAccounts().subscribe(result => {
-  //       this.accounts = result;
-  //       this.accountName = undefined;
-  //     });
-      
-  //     this.accountsService.selectedAccountUpdated.emit();
-  //   });
-  // }
-  
-  // deleteAccount(accountId: string) {
-  //   this.accountsService.deleteAccount({
-  //     accountId: accountId
-  //   }).subscribe(() => {
-  //     this.accountsService.getAccounts().subscribe(result => {
-  //       this.accounts = result;
-  //     });
-      
-  //     this.accountsService.selectedAccountUpdated.emit();
-  //   });
-  // }
 }

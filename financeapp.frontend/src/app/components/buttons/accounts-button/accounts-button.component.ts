@@ -16,7 +16,7 @@ export class AccountsButtonComponent implements OnInit {
   accountId: string | undefined;
   name: string | undefined;
   balance: number | undefined = 0;
-  currency: number | undefined = 1;
+  currency: number = 0;
   
   modalState: 'Create' | 'Update' = 'Create';
   
@@ -50,7 +50,7 @@ export class AccountsButtonComponent implements OnInit {
       this.accountId = undefined;
       this.name = undefined;
       this.balance = 0;
-      this.currency = 1;
+      this.currency = 0;
     }
   }
   

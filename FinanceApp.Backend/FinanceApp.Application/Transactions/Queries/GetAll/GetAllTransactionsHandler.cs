@@ -19,6 +19,7 @@ public class GetAllTransactionsHandler : IRequestHandler<GetAllTransactionsQuery
             .Include(x => x.Category)
             .Include(x => x.Account)
             .OrderByDescending(x => x.Date)
+            .ThenByDescending(x => x.TimeCreated)
             .Adapt<List<TransactionDto>>());
     }
 }

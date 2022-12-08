@@ -17,6 +17,7 @@ public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsQuery, List<A
     {
         return _dbContext.Accounts
             .Include(x => x.Transactions)
+            .OrderBy(x => x.TimeCreated)
             .ProjectToType<AccountDto>()
             .ToListAsync(cancellationToken: cancellationToken);
     }

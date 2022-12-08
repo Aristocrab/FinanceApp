@@ -1,41 +1,37 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Exceptions;
+using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Accounts.Commands.UpdateAccount;
 
 public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand, Guid>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<UpdateAccountCommand> _validator;
 
-    public UpdateAccountHandler(FinanceAppDbContext dbContext)
+    public UpdateAccountHandler(FinanceAppDbContext dbContext, IValidator<UpdateAccountCommand> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
     
     public async Task<Guid> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users
-        //     .Include(x => x.Accounts)
-        //     .FirstOrDefault(x => x.Id == request.UserId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException(nameof(User), request.UserId);
-        // }
-
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
         var account = _dbContext.Accounts.FirstOrDefault(x => x.Id == request.AccountId);
         if (account is null)
         {
             throw new NotFoundException(nameof(Accounts), request.AccountId);
         }
 
-        // if (!user.Accounts.Contains(account))
-        // {
-        //     throw new UnauthorizedException(user, nameof(Account), account.Id);
-        // }
-
         account.Name = request.Name;
+        account.Balance = request.Balance;
+        account.Currency = request.Currency;
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return account.Id;

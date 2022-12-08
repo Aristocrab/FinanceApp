@@ -1,9 +1,13 @@
-﻿namespace FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Entities.Base;
+using FinanceApp.Domain.Enums;
 
-public class Account
+namespace FinanceApp.Domain.Entities;
+
+public class Account : Entity
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
+    public required decimal Balance { get; set; }
+    public required Currency Currency { get; set; }
 
     public List<Transaction> Transactions { get; set; } = null!;
 }

@@ -1,39 +1,33 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Exceptions;
+using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Categories.Commands.UpdateCategory;
 
 public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Guid>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<UpdateCategoryCommand> _validator;
 
-    public UpdateCategoryHandler(FinanceAppDbContext dbContext)
+    public UpdateCategoryHandler(FinanceAppDbContext dbContext, IValidator<UpdateCategoryCommand> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
     
     public async Task<Guid> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users
-        //     .Include(x => x.Categories)
-        //     .FirstOrDefault(x => x.Id == request.UserId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException(nameof(User), request.UserId);
-        // }
-
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
         if (category is null)
         {
             throw new NotFoundException(nameof(Accounts), request.CategoryId);
         }
-
-        // if (!user.Categories.Contains(category))
-        // {
-        //     throw new UnauthorizedException(user, nameof(Account), category.Id);
-        // }
 
         category.Name = request.Name;
         await _dbContext.SaveChangesAsync(cancellationToken);

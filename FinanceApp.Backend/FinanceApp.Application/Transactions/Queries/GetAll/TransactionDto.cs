@@ -1,4 +1,5 @@
-﻿using FinanceApp.Application.Categories.Queries.GetAllCategories;
+﻿using FinanceApp.Application.Accounts.Queries.GetAllAccounts;
+using FinanceApp.Application.Categories.Queries.GetAllCategories;
 using FinanceApp.Domain.Enums;
 
 namespace FinanceApp.Application.Transactions.Queries.GetAll;
@@ -12,4 +13,5 @@ public class TransactionDto
     public DateTime Date { get; set; }
     
     public CategoryDto Category { get; set; } = null!;
+    public AccountDto Account { get; set; } = null!;
 }

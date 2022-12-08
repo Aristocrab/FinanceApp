@@ -1,0 +1,45 @@
+.main-btn {
+    height: 60px;
+    width: 100%;
+}
+
+.delete-button {
+    cursor: pointer;
+}
+
+.delete-button, .delete-button svg {
+    width: 1.6rem;
+}
+
+.delete-button svg {
+    fill: #f44336;
+}
+
+.delete-button svg:hover {
+    fill: #d32f2f;
+}
+
+.edit-button {
+    margin-left: .5rem;
+    cursor: pointer;
+}
+
+.edit-button, .edit-button svg {
+    width: 1.2rem;
+}
+
+.edit-button svg {
+    fill: #4caf50;
+}
+
+.edit-button svg:hover {
+    fill: #388e3c;
+}
+
+.categoryName {
+    text-decoration: underline dotted;
+}
+
+.categoryName:hover {
+    text-decoration: underline;
+}

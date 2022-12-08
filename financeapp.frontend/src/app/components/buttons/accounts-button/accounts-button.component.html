@@ -1,0 +1,68 @@
+<button (click)="open(accountsModal)" type="button" class="btn btn-outline-dark main-btn">Accounts</button>
+
+<ng-template #accountsModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Edit accounts</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+        
+        <ul class="list-group">
+		<li *ngFor="let account of accounts" class="list-group-item">
+            <span #el>{{account.name}}</span>
+            <span class="text-secondary"> ({{account.transactionsCount}})</span>
+            <a (click)="changeModalState('Update', account)" class="text-danger edit-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M17.263 2.177a1.75 1.75 0 012.474 0l2.586 2.586a1.75 1.75 0 010 2.474L19.53 10.03l-.012.013L8.69 20.378a1.75 1.75 0 01-.699.409l-5.523 1.68a.75.75 0 01-.935-.935l1.673-5.5a1.75 1.75 0 01.466-.756L14.476 4.963l2.787-2.786zm-2.275 4.371l-10.28 9.813a.25.25 0 00-.067.108l-1.264 4.154 4.177-1.271a.25.25 0 00.1-.059l10.273-9.806-2.94-2.939zM19 8.44l2.263-2.262a.25.25 0 000-.354l-2.586-2.586a.25.25 0 00-.354 0L16.061 5.5 19 8.44z"></path></svg>
+            </a>
+            <a *ngIf="account.transactionsCount === 0" (click)="deleteAccount(account.id)" class="text-danger delete-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"></path></svg>
+            </a>
+        </li>
+        </ul>
+	</div>
+    <div class="modal-body pt-0">
+        
+        <h4 class="mt-2 state">
+            <span>{{modalState}} account </span>
+            <a *ngIf="modalState == 'Update'" (click)="changeModalState('Create')" class="text-danger delete-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"></path></svg>
+            </a>
+        </h4>
+        
+		<form #newAccountForm="ngForm" (ngSubmit)="submitForm()">
+            <div class="mb-3">
+				<label for="name">
+                    <span *ngIf="!(accountName.errors && (accountName.dirty || accountName.touched))">Name</span>
+                    <span *ngIf="accountName.errors && (accountName.dirty || accountName.touched)" style="color: crimson;">
+                        Name is required
+                    </span>
+                </label>
+                <input [ngClass]="{ 'is-invalid': accountName.errors && (accountName.dirty || accountName.touched) }" #accountName="ngModel" [(ngModel)]="name" required type="text" class="form-control" id="name" name="name" placeholder="Name">
+			</div>
+            
+			<div class="mb-3">
+				<label for="balance">
+                    <span *ngIf="!(accountBalance.errors && (accountBalance.dirty || accountBalance.touched))">Balance</span>
+                    <span *ngIf="accountBalance.errors && (accountBalance.dirty || accountBalance.touched)" style="color: crimson;">
+                        Balance must be greater or equal to 0
+                    </span>
+                </label>
+                <input [ngClass]="{ 'is-invalid': accountBalance.errors && (accountBalance.dirty || accountBalance.touched) }" #accountBalance="ngModel" [(ngModel)]="balance" min="0" required type="number" class="form-control" id="balance" name="balance" placeholder="Balance">
+			</div>
+            
+            <div class="mb-3">
+                <label for="currency">Currency</label>
+                <select [(ngModel)]="currency" required class="form-select" id="currency" name="currency">
+                    <option [ngValue]="0" selected>UAH</option>
+                    <option [ngValue]="1">USD</option>
+                    <option [ngValue]="2">EUR</option>
+                </select>
+            </div>
+            
+            <div class="modal-footer">
+                <button (click)="buttonClicked(newAccountForm, $event)" [ngClass]="{ 'disabled': !newAccountForm.form.valid }" 
+                type="submit" class="btn btn-primary" style="pointer-events: auto">{{modalState}}</button>
+            </div>
+		</form>
+	</div>
+</ng-template>

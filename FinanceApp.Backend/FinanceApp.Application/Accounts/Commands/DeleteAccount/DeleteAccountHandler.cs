@@ -1,5 +1,5 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Exceptions;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,32 +8,34 @@ namespace FinanceApp.Application.Accounts.Commands.DeleteAccount;
 public class DeleteAccountHandler : IRequestHandler<DeleteAccountCommand, Unit>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<DeleteAccountCommand> _validator;
 
-    public DeleteAccountHandler(FinanceAppDbContext dbContext)
+    public DeleteAccountHandler(FinanceAppDbContext dbContext, IValidator<DeleteAccountCommand> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
     
     public async Task<Unit> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users
-        //     .Include(x => x.Accounts)
-        //     .FirstOrDefault(x => x.Id == request.UserId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException(nameof(User), request.UserId);
-        // }
-
-        var account = _dbContext.Accounts.FirstOrDefault(x => x.Id == request.AccountId);
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
+        var account = _dbContext.Accounts
+            .Include(x => x.Transactions)
+            .FirstOrDefault(x => x.Id == request.AccountId);
         if (account is null)
         {
             throw new NotFoundException(nameof(Accounts), request.AccountId);
         }
 
-        // if (!user.Accounts.Contains(account))
-        // {
-        //     throw new UnauthorizedException(user, nameof(Account), account.Id);
-        // }
+        if (account.Transactions.Any())
+        {
+            throw new Exception();
+        }
 
         _dbContext.Accounts.Remove(account);
         await _dbContext.SaveChangesAsync(cancellationToken);

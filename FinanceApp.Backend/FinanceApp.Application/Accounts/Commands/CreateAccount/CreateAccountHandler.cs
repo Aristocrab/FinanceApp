@@ -1,5 +1,5 @@
-﻿using FinanceApp.Application.Common.Exceptions;
-using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Entities;
+using FluentValidation;
 using MediatR;
 
 namespace FinanceApp.Application.Accounts.Commands.CreateAccount;
@@ -7,25 +7,27 @@ namespace FinanceApp.Application.Accounts.Commands.CreateAccount;
 public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Guid>
 {
     private readonly FinanceAppDbContext _dbContext;
+    private readonly IValidator<CreateAccountCommand> _validator;
 
-    public CreateAccountHandler(FinanceAppDbContext dbContext)
+    public CreateAccountHandler(FinanceAppDbContext dbContext, IValidator<CreateAccountCommand> validator)
     {
         _dbContext = dbContext;
+        _validator = validator;
     }
     
     public async Task<Guid> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
-        // var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
-
-        // if (user is null)
-        // {
-            // throw new NotFoundException(nameof(User), request.UserId);
-        // }
-
+        var result = await _validator.ValidateAsync(request, cancellationToken);
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
+        
         var account = new Account
         {
             Name = request.Name,
-            // User = user
+            Balance = request.Balance,
+            Currency = request.Currency
         };
 
         _dbContext.Accounts.Add(account);

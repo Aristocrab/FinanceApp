@@ -1,0 +1,25 @@
+.tabs {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 2rem);
+}
+
+.list-header {
+    padding-right: 2rem;
+    display: inline-flex;
+    justify-content: space-between;
+    gap: .5rem;
+}
+
+.search {
+    width: 40%;
+}
+
+.account-select {
+    width: 320px;
+}
+
+.items {
+    padding-right: 2rem;
+    overflow-y: auto;
+}

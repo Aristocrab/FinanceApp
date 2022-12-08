@@ -1,24 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Transactions\Queries\GetByAccount" />
-      <Folder Include="Transactions\Queries\GetByAccountAndCategories" />
-      <Folder Include="Transactions\Queries\GetByCategories" />
+      <Folder Include="Common\Validators" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+      <PackageReference Include="FluentValidation" Version="11.4.0" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
       <PackageReference Include="Mapster" Version="7.4.0-pre03" />
       <PackageReference Include="MediatR" Version="11.1.0" />
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="7.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>

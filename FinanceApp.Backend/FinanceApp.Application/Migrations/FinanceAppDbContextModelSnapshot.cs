@@ -69,7 +69,7 @@ namespace FinanceApp.Application.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("Period")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

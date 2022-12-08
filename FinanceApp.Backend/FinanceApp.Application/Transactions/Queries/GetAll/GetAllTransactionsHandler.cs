@@ -17,6 +17,9 @@ public class GetAllTransactionsHandler : IRequestHandler<GetAllTransactionsQuery
     {
         return Task.FromResult(_dbContext.Transactions
             .Include(x => x.Category)
+            .Include(x => x.Account)
+            .OrderByDescending(x => x.Date)
+            .ThenByDescending(x => x.TimeCreated)
             .Adapt<List<TransactionDto>>());
     }
 }

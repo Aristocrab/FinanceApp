@@ -1,16 +1,15 @@
-﻿using FinanceApp.Domain.Enums;
+﻿using FinanceApp.Domain.Entities.Base;
+using FinanceApp.Domain.Enums;
 
 namespace FinanceApp.Domain.Entities;
 
-public class Transaction
+public class Transaction : Entity
 {
-    public Guid Id { get; set; }
-    public decimal Amount { get; set; }
-    public string Description { get; set; } = null!;
-    public TransactionType Type { get; set; }
-    public DateTime Date { get; set; }
-    
-    public Category Category { get; set; } = null!;
-    public Account Account { get; set; } = null!;
-    // public User User { get; set; } = null!;
+    public required decimal Amount { get; set; }
+    public required string Description { get; set; }
+    public required TransactionType Type { get; set; }
+    public required DateTime Date { get; set; }
+
+    public Category? Category { get; set; }
+    public required Account Account { get; set; }
 }

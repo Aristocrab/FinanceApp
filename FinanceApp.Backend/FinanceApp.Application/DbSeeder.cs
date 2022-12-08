@@ -16,17 +16,30 @@ public class DbSeeder
     {
         if(_dbContext.Transactions.Any()) return;
 
+        foreach (var entity in _dbContext.Accounts)
+        {
+            _dbContext.Accounts.Remove(entity);
+        }
+        foreach (var entity in _dbContext.Categories)
+        {
+            _dbContext.Categories.Remove(entity);
+        }
+
         var accounts = new Account[]
         {
             new Account
             {
                 Id = new Guid("A616108E-6C16-4860-81AE-DFE27B0FE618"),
-                Name = "Debit card"
+                Name = "Debit card",
+                Balance = 0,
+                Currency = Currency.USD
             },
             new Account
             {
                 Id = new Guid("7AD8E8A5-AEAF-4CB2-B569-72D7FD7E9339"),
-                Name = "Cash"
+                Name = "Cash",
+                Balance = 100,
+                Currency = Currency.UAH
             }
         };
         _dbContext.Accounts.AddRange(accounts);
@@ -83,7 +96,6 @@ public class DbSeeder
             new Transaction
             {
                 Account = accounts[1],
-                Category = categories[1],
                 Amount = 200,
                 Date = DateTime.Now,
                 Description = "Переказ",

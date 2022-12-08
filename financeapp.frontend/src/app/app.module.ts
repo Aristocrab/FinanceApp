@@ -13,6 +13,13 @@ import { TransactionsListComponent } from './components/transactions-list/transa
 import { FilterTransactionTypePipe } from './pipes/filter-transaction-type.pipe';
 import { SearchTransactionPipe } from './pipes/search-transaction.pipe';
 import { FormsModule } from '@angular/forms';
+import { NewTransactionComponent } from './components/new-transaction/new-transaction.component';
+import { SumAccountsBalancesPipe } from './pipes/sum-accounts-balances.pipe';
+import { FilterTransactionsByAccountPipe } from './pipes/filter-transaction-by-account.pipe';
+import { ButtonsComponent } from './components/buttons/buttons.component';
+import { CategoriesButtonComponent } from './components/buttons/categories-button/categories-button.component';
+import { AccountsButtonComponent } from './components/buttons/accounts-button/accounts-button.component';
+import { AlertsComponent } from './components/alerts/alerts.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +29,14 @@ import { FormsModule } from '@angular/forms';
     ChartsComponent,
     TransactionsListComponent,
     FilterTransactionTypePipe,
-    SearchTransactionPipe
+    SearchTransactionPipe,
+    NewTransactionComponent,
+    SumAccountsBalancesPipe,
+    FilterTransactionsByAccountPipe,
+    ButtonsComponent,
+    CategoriesButtonComponent,
+    AccountsButtonComponent,
+    AlertsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,17 +1,11 @@
 using FinanceApp.Application;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+using FinanceApp.WebApi.Middleware.CustomExpectionsHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<FinanceAppDbContext>(options =>
-{
-    options.UseSqlite("Data Source=FinanceApp.db");
-});
-builder.Services.AddMediatR(typeof(FinanceAppDbContext).Assembly);
+builder.Services.AddApplicationServices();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<DbSeeder>();
 
 var app = builder.Build();
 
@@ -21,11 +15,13 @@ using (var scope = app.Services.CreateScope())
     seeder.SeedDb();
 }
 
-app.UseCors(policyBuilder =>
+app.UseCustomExceptionsHandler();
+
+app.UseCors(options =>
 {
-    policyBuilder.AllowAnyHeader();
-    policyBuilder.AllowAnyMethod();
-    policyBuilder.AllowAnyOrigin();
+    options.AllowAnyMethod();
+    options.AllowAnyHeader();
+    options.AllowAnyOrigin();
 });
 
 app.MapControllers();

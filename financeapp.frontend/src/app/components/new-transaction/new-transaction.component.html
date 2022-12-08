@@ -1,0 +1,75 @@
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">New transaction</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form #newTransactionForm="ngForm" (ngSubmit)="createTransaction()">
+			<div class="mb-3">
+				<label for="amount">
+                    <span *ngIf="!amount.errors">Amount</span>
+                    <span *ngIf="amount.errors" style="color: crimson;">
+                        Amount must be greater than 0.01
+                    </span>        
+                </label>
+                <input [ngClass]="{ 'is-invalid': amount.errors }" #amount="ngModel" required min="0.01" type="number" class="form-control" id="amount" [(ngModel)]="createTransactionDto.amount" name="amount" placeholder="Amount">
+                      
+            </div>
+            
+            <div class="mb-3">
+                <label for="type">Type</label>
+                <select required class="form-select" id="type" [(ngModel)]="createTransactionDto.type" name="type">
+                    <option [ngValue]="0">Expense</option>
+                    <option [ngValue]="1">Income</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="category">
+                    <span *ngIf="!(category.errors && (category.dirty || category.touched))">Category</span>
+                    <span *ngIf="category.errors && (category.dirty || category.touched)" style="color: crimson;">
+                        Category is required
+                    </span>
+                </label>
+                <select [ngClass]="{ 'is-invalid': category.errors && (category.dirty || category.touched) }" #category="ngModel" required class="form-select" id="category" [(ngModel)]="createTransactionDto.categoryId" name="category">
+                    <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="date">Date</label>
+                <input required type="date" class="form-control" id="date" [(ngModel)]="createTransactionDto.date" name="date">
+            </div>
+            
+            <div class="mb-3">
+                <label for="description">
+                    <span *ngIf="!(description.errors && (description.dirty || description.touched))">Description</span>
+                    <span *ngIf="description.errors && (description.dirty || description.touched)" style="color: crimson;">
+                        Description is required
+                    </span>
+                </label>
+                <input [ngClass]="{ 'is-invalid': description.errors && (description.dirty || description.touched) }" #description="ngModel" required type="text" class="form-control" id="description" [(ngModel)]="createTransactionDto.description" name="description" placeholder="Description">
+            </div>
+            
+            <div class="mb-3">
+                <span *ngIf="!(account.errors && (account.dirty || account.touched))">Account</span>
+                <span *ngIf="account.errors && (account.dirty || account.touched)" style="color: crimson;">
+                    Account is required
+                </span>
+                <select [ngClass]="{ 'is-invalid': account.errors && (account.dirty || account.touched) }" #account="ngModel" required class="form-select" id="account" [(ngModel)]="createTransactionDto.accountId" name="account">
+                    <option *ngFor="let account of accounts" [ngValue]="account.id">{{account.name}}</option>
+                </select>
+            </div>
+            
+            <div class="modal-footer">
+                <button (click)="buttonClicked(newTransactionForm, $event)" [ngClass]="{ 'disabled': !newTransactionForm.form.valid }" 
+                    type="submit" class="btn btn-primary disabled" style="pointer-events: auto">Create</button>
+            </div>
+            
+		</form>
+	</div>
+</ng-template>
+
+<button type="button" class="new-button" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="open(content)">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill-rule="evenodd" d="M11.75 4.5a.75.75 0 01.75.75V11h5.75a.75.75 0 010 1.5H12.5v5.75a.75.75 0 01-1.5 0V12.5H5.25a.75.75 0 010-1.5H11V5.25a.75.75 0 01.75-.75z"></path></svg>
+</button>

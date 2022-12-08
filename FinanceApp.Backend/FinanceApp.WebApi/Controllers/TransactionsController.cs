@@ -1,11 +1,12 @@
 ﻿using FinanceApp.Application.Transactions.Commands.CreateTransaction;
 using FinanceApp.Application.Transactions.Commands.DeleteTransaction;
+using FinanceApp.Application.Transactions.Commands.TransferTransaction;
 using FinanceApp.Application.Transactions.Commands.UpdateTransaction;
 using FinanceApp.Application.Transactions.Queries.GetAll;
-using FinanceApp.Application.Transactions.Queries.GetByType;
-using FinanceApp.Domain.Enums;
+using FinanceApp.Application.Transactions.Queries.GetTransactionsStats;
 using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Transactions;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,60 +24,40 @@ public class TransactionsController : BaseController
     [HttpGet]
     public Task<List<TransactionDto>> GetAll()
     {
-        return _mediator.Send(new GetAllTransactionsQuery
+        return _mediator.Send(new GetAllTransactionsQuery());
+    }
+    
+    [HttpGet("stats/{period}")]
+    public Task<List<TransactionStatsDto>> GetTransactionsStats(TimePeriod period)
+    {
+        return _mediator.Send(new GetTransactionsStatsQuery
         {
-            UserId = Guid.Empty // todo
+            Period = period
         });
     }
     
-    [HttpGet("GetByType/{type:int}")]
-    public Task<List<TransactionDto>> GetByType(int type)
-    {
-        return _mediator.Send(new GetTransactionsByTypeQuery
-        {
-            Type = (TransactionType)type,
-            UserId = Guid.Empty // todo
-        });
-    }
     
     [HttpPost("new")]
     public Task<Guid> CreateTransaction([FromBody] CreateTransactionDto createTransactionDto)
     {
-        return _mediator.Send(new CreateTransactionCommand
-        {
-            UserId = Guid.Empty,
-            AccountId = createTransactionDto.AccountId,
-            Amount = createTransactionDto.Amount,
-            CategoryId = createTransactionDto.CategoryId,
-            Date = createTransactionDto.Date,
-            Description = createTransactionDto.Description,
-            Type = createTransactionDto.Type
-        });
+        return _mediator.Send(createTransactionDto.Adapt<CreateTransactionCommand>());
+    }
+    
+    [HttpPost("transfer")]
+    public Task<Guid> TransferTransaction([FromBody] TransferTransactionDto transferTransactionDto)
+    {
+        return _mediator.Send(transferTransactionDto.Adapt<TransferTransactionCommand>());
     }
     
     [HttpPut("update")]
     public Task<Guid> UpdateTransaction([FromBody] UpdateTransactionDto updateTransactionDto)
     {
-        return _mediator.Send(new UpdateTransactionCommand
-        {
-            UserId = Guid.Empty,
-            TransactionId = updateTransactionDto.TransactionId,
-            AccountId = updateTransactionDto.AccountId,
-            Amount = updateTransactionDto.Amount,
-            CategoryId = updateTransactionDto.CategoryId,
-            Date = updateTransactionDto.Date,
-            Description = updateTransactionDto.Description,
-            Type = updateTransactionDto.Type
-        });
+        return _mediator.Send(updateTransactionDto.Adapt<UpdateTransactionCommand>());
     }
     
     [HttpDelete("delete")]
     public Task DeleteCategory([FromBody] DeleteTransactionDto deleteTransactionDto)
     {
-        return _mediator.Send(new DeleteTransactionCommand
-        {
-            UserId = Guid.Empty,
-            TransactionId = deleteTransactionDto.TransactionId
-        });
+        return _mediator.Send(deleteTransactionDto.Adapt<DeleteTransactionCommand>());
     }
 }

@@ -1,8 +1,9 @@
-﻿namespace FinanceApp.Domain.Entities;
+﻿using FinanceApp.Domain.Entities.Base;
 
-public class Category
+namespace FinanceApp.Domain.Entities;
+
+public class Category : Entity
 {
-    public Guid Id { get; set; }
     public required string Name { get; set; }
 
     public List<Transaction> Transactions { get; set; } = null!;

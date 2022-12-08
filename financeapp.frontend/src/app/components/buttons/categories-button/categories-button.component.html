@@ -18,8 +18,8 @@
 	</div>
     <div class="modal-footer">
         <div class="input-group mb-3">
-            <input (keydown)="keyDown($event)" [(ngModel)]="categoryName" type="text" class="form-control" placeholder="Category name" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <button type="button" class="input-group-text btn btn-outline-dark" (click)="createCategory()">Create</button>
-          </div>
+            <input #categoryInput="ngModel" (keydown)="keyDown($event)" [(ngModel)]="categoryName" required type="text" class="form-control" placeholder="Category name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <button type="button" [ngClass]="{'disabled': categoryInput.errors}" style="pointer-events: auto" class="input-group-text btn btn-primary" (click)="createCategory()">Create</button>
+        </div>
     </div>
 </ng-template>

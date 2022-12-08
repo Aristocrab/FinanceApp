@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountDto } from 'src/app/models/Accounts/AccountDto';
 import { AccountsService } from 'src/app/services/accounts.service';
@@ -38,6 +39,13 @@ export class AccountsButtonComponent implements OnInit {
     });
 	}
   
+  buttonClicked(form: NgForm, event: any) {
+    if(!form.form.valid) {
+      form.form.markAllAsTouched();
+      event.preventDefault();
+    }
+  }
+  
   changeModalState(state: 'Create' | 'Update', account: AccountDto | undefined = undefined) {
     this.modalState = state;
     
@@ -63,6 +71,14 @@ export class AccountsButtonComponent implements OnInit {
       case 'EUR':
       default:
         return 2;
+    }
+  }
+  
+  submitForm() {
+    if (this.modalState === 'Create') {
+      this.createAccount();
+    } else {
+      this.updateAccount();
     }
   }
   

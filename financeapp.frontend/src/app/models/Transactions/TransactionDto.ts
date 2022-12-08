@@ -10,5 +10,5 @@ export interface TransactionDto {
     category: CategoryDto | null;
     account: AccountDto | null;
     type: TransactionType;
-    date: Date;        
+    date: string;        
 }

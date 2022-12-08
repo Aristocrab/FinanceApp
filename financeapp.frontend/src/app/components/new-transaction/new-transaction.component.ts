@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Guid } from 'guid-typescript';
 import { AccountDto } from 'src/app/models/Accounts/AccountDto';
@@ -16,9 +17,9 @@ import { TransactionsService } from 'src/app/services/transactions.service';
 export class NewTransactionComponent implements OnInit {
   createTransactionDto: CreateTransactionDto = {
     description: '',
-    accountId: Guid.createEmpty().toString(),
-    categoryId: Guid.createEmpty().toString(),
-    amount: 0,
+    accountId: '',
+    categoryId: '',
+    amount: 1,
     type: 0,
     date: new Date().toISOString().split('T')[0]
   }; 
@@ -47,6 +48,13 @@ export class NewTransactionComponent implements OnInit {
     });
   }
   
+  buttonClicked(form: NgForm, event: any) {
+    if(!form.form.valid) {
+      form.form.markAllAsTouched();
+      event.preventDefault();
+    }
+  }
+    
   createTransaction() {
     this.transactionsService.createTransaction(this.createTransactionDto!).subscribe(() => {
       this.modalService.dismissAll();

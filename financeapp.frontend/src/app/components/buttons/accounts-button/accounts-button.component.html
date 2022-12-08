@@ -29,20 +29,30 @@
             </a>
         </h4>
         
-		<form>
+		<form #newAccountForm="ngForm" (ngSubmit)="submitForm()">
             <div class="mb-3">
-				<label for="name">Name</label>
-                <input [(ngModel)]="name" type="text" class="form-control" id="name" name="name" placeholder="Name">
+				<label for="name">
+                    <span *ngIf="!(accountName.errors && (accountName.dirty || accountName.touched))">Name</span>
+                    <span *ngIf="accountName.errors && (accountName.dirty || accountName.touched)" style="color: crimson;">
+                        Name is required
+                    </span>
+                </label>
+                <input [ngClass]="{ 'is-invalid': accountName.errors && (accountName.dirty || accountName.touched) }" #accountName="ngModel" [(ngModel)]="name" required type="text" class="form-control" id="name" name="name" placeholder="Name">
 			</div>
             
 			<div class="mb-3">
-				<label for="balance">Balance</label>
-                <input [(ngModel)]="balance" min="0" type="number" class="form-control" id="balance" name="balance" placeholder="Balance">
+				<label for="balance">
+                    <span *ngIf="!(accountBalance.errors && (accountBalance.dirty || accountBalance.touched))">Balance</span>
+                    <span *ngIf="accountBalance.errors && (accountBalance.dirty || accountBalance.touched)" style="color: crimson;">
+                        Balance must be greater or equal to 0
+                    </span>
+                </label>
+                <input [ngClass]="{ 'is-invalid': accountBalance.errors && (accountBalance.dirty || accountBalance.touched) }" #accountBalance="ngModel" [(ngModel)]="balance" min="0" required type="number" class="form-control" id="balance" name="balance" placeholder="Balance">
 			</div>
             
             <div class="mb-3">
                 <label for="currency">Currency</label>
-                <select [(ngModel)]="currency" class="form-select" id="currency" name="currency">
+                <select [(ngModel)]="currency" required class="form-select" id="currency" name="currency">
                     <option [ngValue]="0" selected>UAH</option>
                     <option [ngValue]="1">USD</option>
                     <option [ngValue]="2">EUR</option>
@@ -50,8 +60,8 @@
             </div>
             
             <div class="modal-footer">
-                <button (click)="createAccount()" *ngIf="modalState == 'Create'" type="button" class="btn btn-outline-dark">{{modalState}}</button>
-                <button (click)="updateAccount()" *ngIf="modalState == 'Update'" type="button" class="btn btn-outline-dark">{{modalState}}</button>
+                <button (click)="buttonClicked(newAccountForm, $event)" [ngClass]="{ 'disabled': !newAccountForm.form.valid }" 
+                type="submit" class="btn btn-primary" style="pointer-events: auto">{{modalState}}</button>
             </div>
 		</form>
 	</div>

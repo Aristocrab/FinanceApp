@@ -55,11 +55,12 @@ export class TransactionsListComponent implements OnInit {
   }
   
   selectTransaction(transaction: TransactionDto, content: any) {
+    this.updateTransactionDto.transactionId = transaction.id;
     this.updateTransactionDto.amount = transaction.amount;
     this.updateTransactionDto.type = transaction.type;
-    this.updateTransactionDto.categoryId = transaction.category!.id;
+    this.updateTransactionDto.categoryId = transaction.category?.id ?? Guid.create().toString();
     this.updateTransactionDto.accountId = transaction.account!.id;
-    this.updateTransactionDto.date = transaction.date.toISOString().split('T')[0];
+    this.updateTransactionDto.date = transaction.date;
     this.updateTransactionDto.description = transaction.description;
     
     this.modalService.open(content, {

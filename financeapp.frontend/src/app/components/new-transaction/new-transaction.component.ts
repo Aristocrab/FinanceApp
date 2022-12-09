@@ -65,6 +65,15 @@ export class NewTransactionComponent implements OnInit {
       } else if(this.createTransactionDto.type == 1) {
         this.transactionsService.incomeTransactionsUpdated.emit();
       }
+      
+      this.createTransactionDto = {
+        description: '',
+        accountId: '',
+        categoryId: '',
+        amount: 1,
+        type: 0,
+        date: new Date().toISOString().split('T')[0]
+      };
     });
   }
 

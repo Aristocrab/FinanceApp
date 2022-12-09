@@ -29,7 +29,7 @@
             </a>
         </h4>
         
-		<form #newAccountForm="ngForm" (ngSubmit)="submitForm()">
+		<form #newAccountForm="ngForm" (ngSubmit)="submitForm(newAccountForm)">
             <div class="mb-3">
 				<label for="name">
                     <span *ngIf="!(accountName.errors && (accountName.dirty || accountName.touched))">Name</span>

@@ -74,12 +74,14 @@ export class AccountsButtonComponent implements OnInit {
     }
   }
   
-  submitForm() {
+  submitForm(form: NgForm) {
     if (this.modalState === 'Create') {
       this.createAccount();
     } else {
       this.updateAccount();
     }
+    form.form.markAsUntouched();
+    form.form.markAsPristine();
   }
   
   createAccount() {

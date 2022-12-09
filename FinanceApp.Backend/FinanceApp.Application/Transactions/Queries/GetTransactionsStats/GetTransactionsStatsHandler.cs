@@ -24,12 +24,13 @@ public class GetTransactionsStatsHandler : IRequestHandler<GetTransactionsStatsQ
             throw new ValidationException(result.Errors);
         }
         
-        IEnumerable<TransactionStatsDto> transactionStats = null!;
+        IEnumerable<TransactionStatsDto> expensesStats = null!;
+        IEnumerable<TransactionStatsDto> incomeStats = null!;
         
         switch (request.Period)
         {
             case TimePeriod.Day:
-                transactionStats = _dbContext.Transactions
+                expensesStats = _dbContext.Transactions
                     .AsEnumerable()
                     .Where(x => x.Type == TransactionType.Expense)
                     .Where(x => DateTime.Now - x.Date <= TimeSpan.FromDays(30))
@@ -38,11 +39,25 @@ public class GetTransactionsStatsHandler : IRequestHandler<GetTransactionsStatsQ
                     .Select(x => new TransactionStatsDto
                     {
                         TimePeriod = x.Key,
-                        Amount = x.Sum(transaction => transaction.Amount)
+                        Amount = x.Sum(transaction => transaction.Amount),
+                        Type = TransactionType.Expense
+                    });
+                
+                incomeStats = _dbContext.Transactions
+                    .AsEnumerable()
+                    .Where(x => x.Type == TransactionType.Income)
+                    .Where(x => DateTime.Now - x.Date <= TimeSpan.FromDays(30))
+                    .OrderBy(x => x.Date)
+                    .GroupBy(x => $"{x.Date.Day:D2}.{x.Date.Month:D2}")
+                    .Select(x => new TransactionStatsDto
+                    {
+                        TimePeriod = x.Key,
+                        Amount = x.Sum(transaction => transaction.Amount),
+                        Type = TransactionType.Income
                     });
                 break;
             case TimePeriod.Month:
-                transactionStats = _dbContext.Transactions
+                expensesStats = _dbContext.Transactions
                     .AsEnumerable()
                     .Where(x => x.Type == TransactionType.Expense)
                     .Where(x => DateTime.Now - x.Date <= TimeSpan.FromDays(365))
@@ -52,11 +67,26 @@ public class GetTransactionsStatsHandler : IRequestHandler<GetTransactionsStatsQ
                     {
                         TimePeriod = new DateTime(1, x.Key, 1)
                             .ToString("MMMM", CultureInfo.InvariantCulture),
-                        Amount = x.Sum(transaction => transaction.Amount)
+                        Amount = x.Sum(transaction => transaction.Amount),
+                        Type = TransactionType.Expense
+                    });
+                
+                incomeStats = _dbContext.Transactions
+                    .AsEnumerable()
+                    .Where(x => x.Type == TransactionType.Income)
+                    .Where(x => DateTime.Now - x.Date <= TimeSpan.FromDays(365))
+                    .OrderBy(x => x.Date)
+                    .GroupBy(x => x.Date.Month)
+                    .Select(x => new TransactionStatsDto
+                    {
+                        TimePeriod = new DateTime(1, x.Key, 1)
+                            .ToString("MMMM", CultureInfo.InvariantCulture),
+                        Amount = x.Sum(transaction => transaction.Amount),
+                        Type = TransactionType.Income
                     });
                 break;
         }
 
-        return transactionStats.ToList();
+        return incomeStats.Concat(expensesStats).ToList();
     }
 }

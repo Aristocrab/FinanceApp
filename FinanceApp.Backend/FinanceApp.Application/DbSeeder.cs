@@ -31,7 +31,7 @@ public class DbSeeder
             {
                 Id = new Guid("A616108E-6C16-4860-81AE-DFE27B0FE618"),
                 Name = "Debit card",
-                Balance = 0,
+                Balance = 0, 
                 Currency = Currency.USD
             },
             new Account
@@ -54,12 +54,17 @@ public class DbSeeder
             new Category
             {
                 Id = new Guid("5EFB4600-43DA-4A7C-9B1F-3DDE5E23A3E0"),
-                Name = "Health"
+                Name = "Cafe"
             },
             new Category
             {
                 Id = new Guid("FD3EF3E9-33A4-406F-B07F-BDE4BE7EFFC1"),
                 Name = "Car"
+            },
+            new Category
+            {
+                Id = new Guid("8C46AD16-F09C-43E6-891C-674D4C421A32"),
+                Name = "Family"
             }
         };
         _dbContext.Categories.AddRange(categories);
@@ -71,7 +76,7 @@ public class DbSeeder
                 Account = accounts[0],
                 Category = categories[0],
                 Amount = 250,
-                Date = DateTime.Now,
+                Date = DateTime.Now.AddDays(-2),
                 Description = "Піца у Івана",
                 Type = TransactionType.Expense
             },
@@ -80,8 +85,17 @@ public class DbSeeder
                 Account = accounts[0],
                 Category = categories[1],
                 Amount = 360,
-                Date = DateTime.Today,
+                Date = DateTime.Now.AddDays(-1),
                 Description = "36 крилець KFC",
+                Type = TransactionType.Expense
+            },
+            new Transaction
+            {
+                Account = accounts[1],
+                Category = categories[1],
+                Amount = 39,
+                Date = DateTime.Now,
+                Description = "Пиво",
                 Type = TransactionType.Expense
             },
             new Transaction
@@ -91,6 +105,24 @@ public class DbSeeder
                 Amount = 100,
                 Date = DateTime.Now,
                 Description = "Зарплата",
+                Type = TransactionType.Income
+            },
+            new Transaction
+            {
+                Account = accounts[1],
+                Category = categories[2],
+                Amount = 100,
+                Date = DateTime.Now,
+                Description = "Зарплата 2",
+                Type = TransactionType.Income
+            },
+            new Transaction
+            {
+                Account = accounts[1],
+                Category = categories[2],
+                Amount = 100,
+                Date = DateTime.Now,
+                Description = "Зарплата 3",
                 Type = TransactionType.Income
             },
             new Transaction

@@ -76,10 +76,10 @@ export class ChartsComponent implements OnInit {
   updateExpensesChartOptions(): void {
     this.categoriesService.getCategoryStats(0, this.accountsService.selectedAccount).subscribe(result => {
       this.expensesData = {
-        labels: result.map(r => r.category.name),
+        labels: result.map(x => x.category.name),
         datasets: [
           {
-            data: result.map(r => r.count),
+            data: result.map(x => x.count),
           },
         ],
       };
@@ -89,10 +89,10 @@ export class ChartsComponent implements OnInit {
   updateIncomeChartOptions(): void {
     this.categoriesService.getCategoryStats(1, this.accountsService.selectedAccount).subscribe(result => {
       this.incomeData = {
-        labels: result.map(r => r.category.name),
+        labels: result.map(x => x.category.name),
         datasets: [
           {
-            data: result.map(r => r.count),
+            data: result.map(x => x.count),
           },
         ],
       };
@@ -101,18 +101,18 @@ export class ChartsComponent implements OnInit {
    
   updateLineChartOptions(): void {
     this.transactionsService.getTransactionsStats(this.selectedTimePeriod).subscribe(result => {
-      let labels = result.map(r => r.timePeriod);
+      let labels = result.map(x => x.timePeriod);
       labels.sort()
       this.lineData = {
         labels: [...new Set(labels)],
         datasets: [
           {
-            data: result.filter(r => r.type == TransactionType.Expense).map(r => r.amount),
+            data: result.map(x => x.expensesSum),
             borderColor: '#e53b44',
             pointBackgroundColor: '#9e2835'
           },
           {
-            data: result.filter(r => r.type == TransactionType.Income).map(r => r.amount),
+            data: result.map(x => x.incomeSum),
             borderColor: '#63c64d',
             pointBackgroundColor: '#327345'
           },

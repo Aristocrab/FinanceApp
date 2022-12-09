@@ -40,11 +40,12 @@ import { AlertsComponent } from './components/alerts/alerts.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    
     NgbModule,
     NgChartsModule,
-    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

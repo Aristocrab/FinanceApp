@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration, ChartData } from 'chart.js';
+import { TransactionType } from 'src/app/models/Transactions/TransactionType';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
@@ -100,11 +101,20 @@ export class ChartsComponent implements OnInit {
    
   updateLineChartOptions(): void {
     this.transactionsService.getTransactionsStats(this.selectedTimePeriod).subscribe(result => {
+      let labels = result.map(r => r.timePeriod);
+      labels.sort()
       this.lineData = {
-        labels: result.map(r => r.timePeriod),
+        labels: [...new Set(labels)],
         datasets: [
           {
-            data: result.map(r => r.amount),
+            data: result.filter(r => r.type == TransactionType.Expense).map(r => r.amount),
+            borderColor: '#e53b44',
+            pointBackgroundColor: '#9e2835'
+          },
+          {
+            data: result.filter(r => r.type == TransactionType.Income).map(r => r.amount),
+            borderColor: '#63c64d',
+            pointBackgroundColor: '#327345'
           },
         ],
       };

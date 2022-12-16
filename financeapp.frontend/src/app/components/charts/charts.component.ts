@@ -102,7 +102,6 @@ export class ChartsComponent implements OnInit {
   updateLineChartOptions(): void {
     this.transactionsService.getTransactionsStats(this.selectedTimePeriod).subscribe(result => {
       let labels = result.map(x => x.timePeriod);
-      labels.sort()
       this.lineData = {
         labels: [...new Set(labels)],
         datasets: [
@@ -141,7 +140,8 @@ export class ChartsComponent implements OnInit {
     });
     
     this.accountsService.selectedAccountUpdated.subscribe(() => {
-      this.updateData();
+      this.updateExpensesChartOptions();
+      this.updateIncomeChartOptions();
     });
   }
 }

@@ -13,10 +13,18 @@ import { ApiService } from './api.service';
 })
 export class CategoriesService extends ApiService {
   
+  categories: CategoryDto[] | undefined;
   categoriesUpdated = new EventEmitter();
   
   constructor(private http: HttpClient) {
     super();
+  }
+  
+  fetchCategories() {
+    this.getCategories().subscribe(categories => {
+      this.categories = categories;
+      // this.categoriesUpdated.emit(categories);
+    });
   }
   
   getCategories() {

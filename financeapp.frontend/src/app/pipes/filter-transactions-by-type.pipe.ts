@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TransactionDto } from '../models/Transactions/TransactionDto';
 
 @Pipe({
-  name: 'filterTransactionType'
+  name: 'filterTransactionsByType'
 })
-export class FilterTransactionTypePipe implements PipeTransform {
+export class FilterTransactionsByTypePipe implements PipeTransform {
 
   transform(transactions: TransactionDto[], transactionType: number): TransactionDto[] {
     if (!transactions) return [];

@@ -19,14 +19,14 @@
 			<input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Search" aria-label="Search">
 		</div>
 		
-		<div class="input-group mt-3 account-select" *ngIf="accounts">			
+		<div class="input-group mt-3 account-select" *ngIf="accountsService.accounts">			
 			<select class="form-select" [(ngModel)]="selectedAccountId" (change)="onAccountChange()">
 				<option value="undefined" selected>All accounts</option>
-				<option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</option>
+				<option *ngFor="let account of accountsService.accounts" [value]="account.id">{{account.name}}</option>
 			</select>
 			
 			<span class="input-group-text" *ngIf="accountsService.selectedAccount == undefined; else elseBlock">
-				Balance: {{accounts! | sumAccountsBalances | currency:'UAH':'symbol-narrow':'1.0-0'}}
+				Balance: {{accountsService.accounts! | sumAccountsBalances | currency:'UAH':'symbol-narrow':'1.0-0'}}
 			</span>
 			<ng-template #elseBlock>
 				<span class="input-group-text">
@@ -43,53 +43,13 @@
 
 	<div class="items mt-3">
 		<app-transactions-list [transactions]="transactionsService.transactions 
-			| filterTransactionType: active 
+			| filterTransactionsByType: active 
 			| filterTransactionsByAccount: accountsService.selectedAccount
 			| searchTransaction : searchText"></app-transactions-list>
 	</div>
 
 </div>
 
-<ng-template #transfer let-modal>
-	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Transfer transaction</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-	</div>
-	<div class="modal-body">
-		<form>
-			<div class="mb-3">
-				<label for="amount">Amount</label>
-                <input min="0" type="number" class="form-control" id="amount" [(ngModel)]="transferTransactionDto.amount" name="amount" placeholder="Amount">
-			</div>
-            
-            <div class="mb-3">
-                <label for="date">Date</label>
-                <input type="date" class="form-control" id="date" [(ngModel)]="transferTransactionDto.date" name="date">
-            </div>
-            
-            <div class="mb-3">
-                <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" [(ngModel)]="transferTransactionDto.description" name="description" placeholder="Description">
-            </div>
-            
-            <div class="mb-3">
-                <label for="account">Account from</label>
-                <select class="form-select" id="account" [(ngModel)]="transferTransactionDto.accountFromId" name="account">
-                    <option *ngFor="let account of accounts" [ngValue]="account.id">{{account.name}}</option>
-                </select>
-            </div>
-			
-			<div class="mb-3">
-                <label for="account">Account to</label>
-                <select class="form-select" id="account" [(ngModel)]="transferTransactionDto.accountToId" name="account">
-                    <option *ngFor="let account of accounts" [ngValue]="account.id">{{account.name}}</option>
-                </select>
-            </div>
-            
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" (click)="transferTransaction()">Create</button>
-            </div>
-            
-		</form>
-	</div>
+<ng-template #transfer>
+	<app-transfer-modal></app-transfer-modal>
 </ng-template>

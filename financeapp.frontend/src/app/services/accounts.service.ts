@@ -14,13 +14,18 @@ import { ApiService } from './api.service';
 export class AccountsService extends ApiService {
     
   public selectedAccount: AccountDto | undefined;
+  public accounts: AccountDto[] | undefined;
   
   selectedAccountUpdated = new EventEmitter();
   
-  constructor(private http: HttpClient,
-    private alertsService: AlertsService
-    ) {
+  constructor(private http: HttpClient, private alertsService: AlertsService) {
     super();
+  }
+  
+  fetchAccounts() {
+    this.getAccounts().subscribe(accounts => {
+      this.accounts = accounts;
+    });
   }
   
   getAccounts() {

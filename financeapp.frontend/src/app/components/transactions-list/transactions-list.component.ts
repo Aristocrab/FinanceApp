@@ -17,7 +17,7 @@ import { TransactionsService } from 'src/app/services/transactions.service';
 })
 export class TransactionsListComponent implements OnInit {
   
-  updateTransactionDto: UpdateTransactionDto = {
+  selectedTransaction: UpdateTransactionDto = {
     transactionId: Guid.createEmpty().toString(),
     description: '',
     accountId: Guid.createEmpty().toString(),
@@ -26,42 +26,24 @@ export class TransactionsListComponent implements OnInit {
     type: 0,
     date: new Date().toISOString().split('T')[0]
   };
-  
-  categories: CategoryDto[] | undefined;
-  accounts: AccountDto[] | undefined;
-  
   @Input() transactions: TransactionDto[] = [];
   
-  constructor(private transactionsService: TransactionsService,
-    private modalService: NgbModal,
-    private categoriesService: CategoriesService,
-    private accountsService: AccountsService) {
+  constructor(public categoriesService: CategoriesService,
+    public accountsService: AccountsService,
+    private modalService: NgbModal,    ) {
   }
   
-  ngOnInit(): void {
-    this.transactionsService.fetchTransactions();
-    
-    this.categoriesService.getCategories().subscribe(result => {
-      this.categories = result;
-    });
-    
-    this.accountsService.getAccounts().subscribe(result => {
-      this.accounts = result;
-    });
-    
-    this.categoriesService.categoriesUpdated.subscribe(() => {
-      this.transactionsService.fetchTransactions();
-    });
+  ngOnInit(): void {    
   }
   
   selectTransaction(transaction: TransactionDto, content: any) {
-    this.updateTransactionDto.transactionId = transaction.id;
-    this.updateTransactionDto.amount = transaction.amount;
-    this.updateTransactionDto.type = transaction.type;
-    this.updateTransactionDto.categoryId = transaction.category?.id ?? Guid.create().toString();
-    this.updateTransactionDto.accountId = transaction.account!.id;
-    this.updateTransactionDto.date = transaction.date;
-    this.updateTransactionDto.description = transaction.description;
+    this.selectedTransaction.transactionId = transaction.id;
+    this.selectedTransaction.amount = transaction.amount;
+    this.selectedTransaction.type = transaction.type;
+    this.selectedTransaction.categoryId = transaction.category?.id ?? Guid.create().toString();
+    this.selectedTransaction.accountId = transaction.account!.id;
+    this.selectedTransaction.date = transaction.date;
+    this.selectedTransaction.description = transaction.description;
     
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -69,15 +51,4 @@ export class TransactionsListComponent implements OnInit {
     });
   }
   
-  updateTransactions() {
-      this.transactionsService.updateTransaction(this.updateTransactionDto)
-      .subscribe(() => {
-        this.transactionsService.fetchTransactions();
-        
-        this.transactionsService.incomeTransactionsUpdated.emit();
-        this.transactionsService.expensesTransactionsUpdated.emit();
-        this.modalService.dismissAll();
-      }
-    );
-  }
 }

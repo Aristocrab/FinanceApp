@@ -26,15 +26,15 @@ export class TransactionsService extends ApiService {
     super();
   }
   
-  getTransactionsStats(type: number) {
-    return this.http.get<TransactionsStatsDto[]>(`${ApiService.baseUrl}/Transactions/stats/${type}`);
-  }
-  
   fetchTransactions() {
     return this.http.get<TransactionDto[]>(`${ApiService.baseUrl}/Transactions`)
     .subscribe(result => {
       this.transactions = result;
     });
+  }
+  
+  getTransactionsStats(type: number) {
+    return this.http.get<TransactionsStatsDto[]>(`${ApiService.baseUrl}/Transactions/stats/${type}`);
   }
   
   createTransaction(transaction: CreateTransactionDto) {

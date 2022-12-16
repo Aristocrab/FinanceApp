@@ -10,16 +10,20 @@ import { ChartsComponent } from './components/charts/charts.component';
 import { NgChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { TransactionsListComponent } from './components/transactions-list/transactions-list.component';
-import { FilterTransactionTypePipe } from './pipes/filter-transaction-type.pipe';
+import { FilterTransactionsByTypePipe } from './pipes/filter-transactions-by-type.pipe';
 import { SearchTransactionPipe } from './pipes/search-transaction.pipe';
 import { FormsModule } from '@angular/forms';
 import { NewTransactionComponent } from './components/new-transaction/new-transaction.component';
 import { SumAccountsBalancesPipe } from './pipes/sum-accounts-balances.pipe';
-import { FilterTransactionsByAccountPipe } from './pipes/filter-transaction-by-account.pipe';
-import { ButtonsComponent } from './components/buttons/buttons.component';
-import { CategoriesButtonComponent } from './components/buttons/categories-button/categories-button.component';
-import { AccountsButtonComponent } from './components/buttons/accounts-button/accounts-button.component';
+import { FilterTransactionsByAccountPipe } from './pipes/filter-transactions-by-account.pipe';
+import { ConfigButtonsComponent } from './components/config-buttons/config-buttons.component';
+import { AccountsModalComponent } from './components/modals/accounts-modal/accounts-modal.component';
 import { AlertsComponent } from './components/alerts/alerts.component';
+import { CategoriesModalComponent } from './components/modals/categories-modal/categories-modal.component';
+import { TransferModalComponent } from './components/modals/transfer-modal/transfer-modal.component';
+import { CreateTransactionModalComponent } from './components/modals/create-transaction-modal/create-transaction-modal.component';
+import { UpdateTransactionModalComponent } from './components/modals/update-transaction-modal/update-transaction-modal.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,15 +31,18 @@ import { AlertsComponent } from './components/alerts/alerts.component';
     TransactionComponent,
     ChartsComponent,
     TransactionsListComponent,
-    FilterTransactionTypePipe,
+    FilterTransactionsByTypePipe,
     SearchTransactionPipe,
     NewTransactionComponent,
     SumAccountsBalancesPipe,
     FilterTransactionsByAccountPipe,
-    ButtonsComponent,
-    CategoriesButtonComponent,
-    AccountsButtonComponent,
-    AlertsComponent
+    ConfigButtonsComponent,
+    AccountsModalComponent,
+    CategoriesModalComponent,
+    AlertsComponent,
+    TransferModalComponent,
+    CreateTransactionModalComponent,
+    UpdateTransactionModalComponent,
   ],
   imports: [
     BrowserModule,

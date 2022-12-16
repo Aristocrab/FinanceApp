@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountDto } from 'src/app/models/Accounts/AccountDto';
 import { AccountsService } from 'src/app/services/accounts.service';
-import { CategoriesService } from 'src/app/services/categories.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 
 @Component({
-  selector: 'app-accounts-button',
-  templateUrl: './accounts-button.component.html',
-  styleUrls: ['./accounts-button.component.css']
+  selector: 'app-accounts-modal',
+  templateUrl: './accounts-modal.component.html',
+  styleUrls: ['./accounts-modal.component.css']
 })
-export class AccountsButtonComponent implements OnInit {
-  accounts: AccountDto[] | undefined;
+export class AccountsModalComponent {
+  
+  @Output() close = new EventEmitter();
   
   accountId: string | undefined;
   name: string | undefined;
@@ -21,23 +20,8 @@ export class AccountsButtonComponent implements OnInit {
   
   modalState: 'Create' | 'Update' = 'Create';
   
-  constructor(private modalService: NgbModal,
-    private accountsService: AccountsService,
-    private transactionsService: TransactionsService
-  ) { }
-  
-  ngOnInit(): void {
-    this.accountsService.getAccounts().subscribe(result => {
-      this.accounts = result;
-    });
-  }
-  
-  open(content: any) {
-		this.modalService.open(content, { 
-      ariaLabelledBy: 'modal-basic-title',
-      centered: true 
-    });
-	}
+  constructor(public accountsService: AccountsService, private transactionsService: TransactionsService) 
+  { }
   
   buttonClicked(form: NgForm, event: any) {
     if(!form.form.valid) {
@@ -90,10 +74,6 @@ export class AccountsButtonComponent implements OnInit {
       balance: this.balance!,
       currency: this.currency!
     }).subscribe(() => {
-      this.accountsService.getAccounts().subscribe(result => {
-        this.accounts = result;
-      });
-      
       this.accountsService.selectedAccountUpdated.emit();
       
       this.accountId = undefined;
@@ -110,12 +90,7 @@ export class AccountsButtonComponent implements OnInit {
       balance: this.balance!,
       currency: this.currency!
     }).subscribe(() => {
-      this.accountsService.getAccounts().subscribe(result => {
-        this.accounts = result;
-      });
-      
       this.accountsService.selectedAccountUpdated.emit();
-      this.transactionsService.fetchTransactions();
       
       this.accountId = undefined;
       this.name = undefined;
@@ -129,12 +104,10 @@ export class AccountsButtonComponent implements OnInit {
     this.accountsService.deleteAccount({
       accountId: accountId
     }).subscribe(() => {
-      this.accountsService.getAccounts().subscribe(result => {
-        this.accounts = result;
-      });
-      
+      if(this.accountsService.selectedAccount?.id === accountId) {
+        this.accountsService.selectedAccount = undefined;
+      }
       this.accountsService.selectedAccountUpdated.emit();
-      this.transactionsService.fetchTransactions();
     });
   }
 }

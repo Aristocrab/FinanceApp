@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
 
-namespace FinanceApp.Application;
+namespace FinanceApp.Application.Database;
 
 public class DbSeeder
 {
@@ -14,8 +14,10 @@ public class DbSeeder
 
     public void SeedDb()
     {
-        if(_dbContext.Transactions.Any()) return;
-
+        foreach (var entity in _dbContext.Transactions)
+        {
+            _dbContext.Transactions.Remove(entity);
+        }
         foreach (var entity in _dbContext.Accounts)
         {
             _dbContext.Accounts.Remove(entity);
@@ -25,7 +27,7 @@ public class DbSeeder
             _dbContext.Categories.Remove(entity);
         }
 
-        var accounts = new Account[]
+        var accounts = new[]
         {
             new Account
             {
@@ -44,7 +46,7 @@ public class DbSeeder
         };
         _dbContext.Accounts.AddRange(accounts);
 
-        var categories = new Category[]
+        var categories = new[]
         {
             new Category
             {
@@ -69,14 +71,14 @@ public class DbSeeder
         };
         _dbContext.Categories.AddRange(categories);
 
-        var transactions = new Transaction[]
+        var transactions = new[]
         {
             new Transaction
             {
                 Account = accounts[0],
                 Category = categories[0],
                 Amount = 250,
-                Date = DateTime.Now.AddDays(-2),
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-2)),
                 Description = "Піца у Івана",
                 Type = TransactionType.Expense
             },
@@ -85,7 +87,7 @@ public class DbSeeder
                 Account = accounts[0],
                 Category = categories[1],
                 Amount = 360,
-                Date = DateTime.Now.AddDays(-1),
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-1)),
                 Description = "36 крилець KFC",
                 Type = TransactionType.Expense
             },
@@ -94,7 +96,7 @@ public class DbSeeder
                 Account = accounts[1],
                 Category = categories[1],
                 Amount = 39,
-                Date = DateTime.Now,
+                Date = DateOnly.FromDateTime(DateTime.Now),
                 Description = "Пиво",
                 Type = TransactionType.Expense
             },
@@ -103,7 +105,7 @@ public class DbSeeder
                 Account = accounts[1],
                 Category = categories[2],
                 Amount = 100,
-                Date = DateTime.Now,
+                Date = DateOnly.FromDateTime(DateTime.Now),
                 Description = "Зарплата",
                 Type = TransactionType.Income
             },
@@ -112,7 +114,7 @@ public class DbSeeder
                 Account = accounts[1],
                 Category = categories[2],
                 Amount = 100,
-                Date = DateTime.Now,
+                Date = DateOnly.FromDateTime(DateTime.Now),
                 Description = "Зарплата 2",
                 Type = TransactionType.Income
             },
@@ -121,7 +123,7 @@ public class DbSeeder
                 Account = accounts[1],
                 Category = categories[2],
                 Amount = 100,
-                Date = DateTime.Now,
+                Date = DateOnly.FromDateTime(DateTime.Now),
                 Description = "Зарплата 3",
                 Type = TransactionType.Income
             },
@@ -129,7 +131,7 @@ public class DbSeeder
             {
                 Account = accounts[1],
                 Amount = 200,
-                Date = DateTime.Now,
+                Date = DateOnly.FromDateTime(DateTime.Now),
                 Description = "Переказ",
                 Type = TransactionType.Transfer
             },

@@ -10,7 +10,7 @@ public class TransactionDto
     public decimal Amount { get; set; }
     public string Description { get; set; } = null!;
     public TransactionType Type { get; set; }
-    public DateTime Date { get; set; }
+    public DateOnly Date { get; set; }
     
     public CategoryDto Category { get; set; } = null!;
     public AccountDto Account { get; set; } = null!;

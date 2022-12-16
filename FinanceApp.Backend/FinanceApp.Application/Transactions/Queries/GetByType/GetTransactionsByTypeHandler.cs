@@ -1,4 +1,5 @@
-﻿using FinanceApp.Application.Transactions.Queries.GetAll;
+﻿using FinanceApp.Application.Database;
+using FinanceApp.Application.Transactions.Queries.GetAll;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

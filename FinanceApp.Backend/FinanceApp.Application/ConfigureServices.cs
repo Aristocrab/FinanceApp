@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using FinanceApp.Application.Database;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

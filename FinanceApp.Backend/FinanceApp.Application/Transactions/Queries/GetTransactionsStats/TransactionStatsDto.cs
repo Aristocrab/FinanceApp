@@ -1,6 +1,4 @@
-﻿using FinanceApp.Domain.Enums;
-
-namespace FinanceApp.Application.Transactions.Queries.GetTransactionsStats;
+﻿namespace FinanceApp.Application.Transactions.Queries.GetTransactionsStats;
 
 public class TransactionStatsDto
 {

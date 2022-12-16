@@ -9,5 +9,5 @@ public class TransferTransactionCommand : IRequest<Guid>
     
     public decimal Amount { get; set; }
     public string Description { get; set; } = null!;
-    public DateTime Date { get; set; }
+    public DateOnly Date { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using FinanceApp.Domain.Enums;
+﻿using FinanceApp.Application.Database;
+using FinanceApp.Domain.Enums;
 using FinanceApp.Domain.Exceptions;
 using FluentValidation;
 using MediatR;

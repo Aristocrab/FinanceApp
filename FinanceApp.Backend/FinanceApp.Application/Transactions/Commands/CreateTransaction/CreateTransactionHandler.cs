@@ -1,4 +1,5 @@
-﻿using FinanceApp.Domain.Entities;
+﻿using FinanceApp.Application.Database;
+using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
 using FinanceApp.Domain.Exceptions;
 using FluentValidation;

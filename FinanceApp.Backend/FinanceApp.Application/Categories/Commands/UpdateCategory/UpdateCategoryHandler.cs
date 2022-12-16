@@ -1,4 +1,5 @@
-﻿using FinanceApp.Domain.Exceptions;
+﻿using FinanceApp.Application.Database;
+using FinanceApp.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
 

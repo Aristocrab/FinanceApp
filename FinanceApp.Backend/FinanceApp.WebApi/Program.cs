@@ -1,4 +1,5 @@
 using FinanceApp.Application;
+using FinanceApp.Application.Database;
 using FinanceApp.WebApi.Middleware.CustomExpectionsHandler;
 
 var builder = WebApplication.CreateBuilder(args);

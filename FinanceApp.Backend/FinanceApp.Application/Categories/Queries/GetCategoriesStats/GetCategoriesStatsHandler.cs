@@ -1,4 +1,5 @@
 ﻿using FinanceApp.Application.Categories.Queries.GetAllCategories;
+using FinanceApp.Application.Database;
 using FluentValidation;
 using Mapster;
 using MediatR;

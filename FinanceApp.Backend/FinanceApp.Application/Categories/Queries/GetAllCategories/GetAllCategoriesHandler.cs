@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using FinanceApp.Application.Database;
+using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

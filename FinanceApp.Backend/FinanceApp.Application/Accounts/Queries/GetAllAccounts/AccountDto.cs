@@ -6,5 +6,7 @@ public class AccountDto
     public string Name { get; set; } = null!;
     public required decimal Balance { get; set; }
     public required string Currency { get; set; }
+    public required int Icon { get; set; }
+    
     public int TransactionsCount { get; set; }
 }

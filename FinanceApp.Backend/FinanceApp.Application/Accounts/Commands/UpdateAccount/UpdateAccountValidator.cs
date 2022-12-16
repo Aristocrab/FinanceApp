@@ -12,5 +12,7 @@ public class UpdateAccountValidator : AbstractValidator<UpdateAccountCommand>
             .NotEmpty().MaximumLength(128);
         RuleFor(x => x.Currency)
             .IsInEnum();
+        RuleFor(x => x.Icon)
+            .GreaterThanOrEqualTo(0);
     }
 }

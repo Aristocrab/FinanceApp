@@ -12,5 +12,7 @@ public class CreateAccountValidator : AbstractValidator<CreateAccountCommand>
             .GreaterThanOrEqualTo(0);
         RuleFor(x => x.Currency)
             .IsInEnum();
+        RuleFor(x => x.Icon)
+            .GreaterThanOrEqualTo(0);
     }
 }

@@ -28,7 +28,8 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Guid>
         {
             Name = request.Name,
             Balance = request.Balance,
-            Currency = request.Currency
+            Currency = request.Currency,
+            Icon = request.Icon
         };
 
         _dbContext.Accounts.Add(account);

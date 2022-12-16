@@ -33,6 +33,7 @@ public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand, Guid>
         account.Name = request.Name;
         account.Balance = request.Balance;
         account.Currency = request.Currency;
+        account.Icon = request.Icon;
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return account.Id;

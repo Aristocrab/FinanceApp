@@ -31,18 +31,18 @@ public class DbSeeder
         {
             new Account
             {
-                Id = new Guid("A616108E-6C16-4860-81AE-DFE27B0FE618"),
-                Name = "Debit card",
-                Balance = 0, 
-                Currency = Currency.USD,
-                Icon = 0
-            },
-            new Account
-            {
                 Id = new Guid("7AD8E8A5-AEAF-4CB2-B569-72D7FD7E9339"),
                 Name = "Cash",
                 Balance = 100,
                 Currency = Currency.UAH,
+                Icon = 0
+            },
+            new Account
+            {
+                Id = new Guid("A616108E-6C16-4860-81AE-DFE27B0FE618"),
+                Name = "Debit card",
+                Balance = 0, 
+                Currency = Currency.USD,
                 Icon = 1
             }
         };

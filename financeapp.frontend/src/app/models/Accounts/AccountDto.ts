@@ -6,4 +6,5 @@ export interface AccountDto {
     balance: number;
     currency: string;
     transactionsCount: number;
+    icon: number;
 }

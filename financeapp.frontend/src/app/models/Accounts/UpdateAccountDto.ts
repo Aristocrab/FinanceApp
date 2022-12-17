@@ -5,4 +5,5 @@ export interface UpdateAccountDto {
     name: string;
     balance: number;
     currency: number;
+    icon: number;
 }

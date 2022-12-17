@@ -13,6 +13,7 @@ import { TransactionsListComponent } from './components/transactions-list/transa
 import { FilterTransactionsByTypePipe } from './pipes/filter-transactions-by-type.pipe';
 import { SearchTransactionPipe } from './pipes/search-transaction.pipe';
 import { FormsModule } from '@angular/forms';
+import { NgxBootstrapIconsModule, allIcons, ColorTheme } from 'ngx-bootstrap-icons';
 import { NewTransactionComponent } from './components/new-transaction/new-transaction.component';
 import { SumAccountsBalancesPipe } from './pipes/sum-accounts-balances.pipe';
 import { FilterTransactionsByAccountPipe } from './pipes/filter-transactions-by-account.pipe';
@@ -52,6 +53,7 @@ import { UpdateTransactionModalComponent } from './components/modals/update-tran
     
     NgbModule,
     NgChartsModule,
+    NgxBootstrapIconsModule.pick(allIcons)
   ],
   providers: [],
   bootstrap: [AppComponent]

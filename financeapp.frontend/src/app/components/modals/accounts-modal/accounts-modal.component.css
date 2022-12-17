@@ -24,7 +24,7 @@
 }
 
 .edit-button {
-    margin-left: .5rem;
+    margin-left: .2rem;
     cursor: pointer;
 }
 
@@ -40,3 +40,25 @@
     fill: #388e3c;
 }
 
+#icon {
+    display: flex;
+    gap: .2rem;
+}
+
+.icon-label > i-bs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.account {
+    display: inline-flex;
+    gap: .2rem;
+    align-items: center;
+}
+
+i-bs, .icon {
+    display: inline-flex;
+    width: 1.4rem;
+    height: 1.4rem;
+}

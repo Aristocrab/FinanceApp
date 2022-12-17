@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
+import { IconName } from 'ngx-bootstrap-icons';
 import { catchError, throwError } from 'rxjs';
 import { AccountDto } from '../models/Accounts/AccountDto';
 import { CreateAccountDto } from '../models/Accounts/CreateAccountDto';
@@ -15,6 +16,14 @@ export class AccountsService extends ApiService {
     
   public selectedAccount: AccountDto | undefined;
   public accounts: AccountDto[] | undefined;
+  
+  public icons: IconName[] = [
+    "cash", 
+    "credit-card",
+    "currency-dollar",
+    "currency-euro",
+    "piggy-bank",
+  ];
   
   selectedAccountUpdated = new EventEmitter();
   

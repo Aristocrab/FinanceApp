@@ -8,7 +8,7 @@ export interface TransactionDto {
     amount: number;
     description: string;
     category: CategoryDto | null;
-    account: AccountDto | null;
+    account: AccountDto;
     type: TransactionType;
     date: string;        
 }

@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Guid } from 'guid-typescript';
+import { IconName } from 'ngx-bootstrap-icons';
 import { TransactionDto } from 'src/app/models/Transactions/TransactionDto';
 import { TransactionType } from 'src/app/models/Transactions/TransactionType';
+import { AccountsService } from 'src/app/services/accounts.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 
 @Component({
@@ -14,8 +16,12 @@ export class TransactionComponent {
   @Input() transaction!: TransactionDto;
   @Output() update = new EventEmitter<TransactionDto>();
   
-  constructor(private transactionsService: TransactionsService) {
+  constructor(private transactionsService: TransactionsService, private accountsService: AccountsService) {
     
+  }
+  
+  getIcon(accountId: string) {
+    return this.accountsService.icons[this.accountsService.accounts!.find(x => x.id === accountId)!.icon];
   }
   
   updateTransaction(): void {

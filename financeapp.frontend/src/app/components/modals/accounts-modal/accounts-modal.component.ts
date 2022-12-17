@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { IconName } from 'ngx-bootstrap-icons';
 import { AccountDto } from 'src/app/models/Accounts/AccountDto';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
@@ -17,6 +18,7 @@ export class AccountsModalComponent {
   name: string | undefined;
   balance: number | undefined = 0;
   currency: number = 0;
+  icon: number = 0;
   
   modalState: 'Create' | 'Update' = 'Create';
   
@@ -30,6 +32,14 @@ export class AccountsModalComponent {
     }
   }
   
+  getIcon(icon: number) {
+    return this.accountsService.icons[icon];
+  }
+  
+  iconChange(icon: number) {
+    this.icon = icon;
+  }
+  
   changeModalState(state: 'Create' | 'Update', account: AccountDto | undefined = undefined) {
     this.modalState = state;
     
@@ -38,11 +48,13 @@ export class AccountsModalComponent {
       this.name = account!.name;
       this.balance = account!.balance;
       this.currency = this.convertCurrencyToNumber(account!.currency);
+      this.icon = account!.icon;
     } else {
       this.accountId = undefined;
       this.name = undefined;
       this.balance = 0;
       this.currency = 0;
+      this.icon = 0;
     }
   }
   
@@ -72,7 +84,8 @@ export class AccountsModalComponent {
     this.accountsService.createAccount({
       name: this.name!,
       balance: this.balance!,
-      currency: this.currency!
+      currency: this.currency!,
+      icon: this.icon
     }).subscribe(() => {
       this.accountsService.selectedAccountUpdated.emit();
       
@@ -80,6 +93,7 @@ export class AccountsModalComponent {
       this.name = undefined;
       this.balance = 0;
       this.currency = 1;
+      this.icon = 0;
     });
   }
   
@@ -88,7 +102,8 @@ export class AccountsModalComponent {
       accountId: this.accountId!,
       name: this.name!,
       balance: this.balance!,
-      currency: this.currency!
+      currency: this.currency!,
+      icon: this.icon
     }).subscribe(() => {
       this.accountsService.selectedAccountUpdated.emit();
       
@@ -96,6 +111,7 @@ export class AccountsModalComponent {
       this.name = undefined;
       this.balance = 0;
       this.currency = 1;
+      this.icon = 0;
       this.changeModalState('Create');
     });
   }

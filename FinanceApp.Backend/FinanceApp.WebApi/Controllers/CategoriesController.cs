@@ -8,10 +8,12 @@ using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Categories;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.WebApi.Controllers;
 
+[Authorize]
 public class CategoriesController : BaseController
 {
     private readonly IMediator _mediator;
@@ -24,7 +26,10 @@ public class CategoriesController : BaseController
     [HttpGet]
     public Task<List<CategoryDto>> GetAll()
     {
-        return _mediator.Send(new GetAllCategoriesQuery());
+        return _mediator.Send(new GetAllCategoriesQuery
+        {
+            UserId = UserId
+        });
     }
     
     [HttpGet("stats/{transactionType}")]
@@ -32,6 +37,7 @@ public class CategoriesController : BaseController
     {
         return _mediator.Send(new GetCategoriesStatsQuery
         {
+            UserId = UserId,
             Type = transactionType
         });
     }
@@ -41,6 +47,7 @@ public class CategoriesController : BaseController
     {
         return _mediator.Send(new GetCategoriesStatsQuery
         {
+            UserId = UserId,
             Type = transactionType,
             AccountId = accountId
         });
@@ -49,18 +56,24 @@ public class CategoriesController : BaseController
     [HttpPost("new")]
     public Task<Guid> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
     {
-        return _mediator.Send(createCategoryDto.Adapt<CreateCategoryCommand>());
+        var command = createCategoryDto.Adapt<CreateCategoryCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
     
     [HttpPut("update")]
     public Task<Guid> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
     {
-        return _mediator.Send(updateCategoryDto.Adapt<UpdateCategoryCommand>());
+        var command = updateCategoryDto.Adapt<UpdateCategoryCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
     
     [HttpDelete("delete")]
     public Task DeleteCategory([FromBody] DeleteCategoryDto deleteCategoryDto)
     {
-        return _mediator.Send(deleteCategoryDto.Adapt<DeleteCategoryCommand>());
+        var command = deleteCategoryDto.Adapt<DeleteCategoryCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
 }

@@ -4,5 +4,6 @@ namespace FinanceApp.Application.Categories.Commands.DeleteCategory;
 
 public class DeleteCategoryCommand : IRequest<Unit>
 {
-    public Guid CategoryId { get; set; }
+    public required Guid UserId { get; set; }
+    public required Guid CategoryId { get; set; }
 }

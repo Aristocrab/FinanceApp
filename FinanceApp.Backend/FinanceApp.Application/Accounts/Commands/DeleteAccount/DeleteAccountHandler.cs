@@ -25,7 +25,15 @@ public class DeleteAccountHandler : IRequestHandler<DeleteAccountCommand, Unit>
             throw new ValidationException(result.Errors);
         }
         
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
         var account = _dbContext.Accounts
+            .Include(x => x.User)
+            .Where(x => x.User.Id == request.UserId)
             .Include(x => x.Transactions)
             .FirstOrDefault(x => x.Id == request.AccountId);
         if (account is null)

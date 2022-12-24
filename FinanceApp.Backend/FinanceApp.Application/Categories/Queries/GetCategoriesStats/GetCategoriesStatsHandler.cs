@@ -37,6 +37,8 @@ public class GetCategoriesStatsHandler : IRequestHandler<GetCategoriesStatsQuery
         }
             
         var stats = transactions
+            .Include(x => x.User)
+            .Where(x => x.User.Id == request.UserId)
             .OrderBy(x => x.Category!.Name)
             .GroupBy(x => x.Category)
             .Select(x => new CategoryStatsDto

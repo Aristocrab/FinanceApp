@@ -26,7 +26,15 @@ public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand
             throw new ValidationException(result.Errors);
         }
         
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
         var transaction = _dbContext.Transactions
+            .Include( x=> x.User)
+            .Where(x => x.User.Id == request.UserId)
             .Include(x => x.Account)
             .FirstOrDefault(x => x.Id == request.TransactionId);
         if (transaction is null)

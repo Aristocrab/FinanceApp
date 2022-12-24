@@ -3,6 +3,7 @@ using FinanceApp.Application.Database;
 using FinanceApp.Domain.Enums;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Transactions.Queries.GetTransactionsStats;
 
@@ -31,6 +32,8 @@ public class GetTransactionsStatsHandler : IRequestHandler<GetTransactionsStatsQ
         {
             case TimePeriod.Day:
                 transactionStats = _dbContext.Transactions
+                    .Include(x => x.User)
+                    .Where(x => x.User.Id == request.UserId)
                     .AsEnumerable()
                     .Where(x => DateTime.Now.DayOfYear - x.Date.DayOfYear is >= 0 and < 30)
                     .OrderBy(x => x.Date)
@@ -46,6 +49,8 @@ public class GetTransactionsStatsHandler : IRequestHandler<GetTransactionsStatsQ
                 break;
             case TimePeriod.Month:
                 transactionStats = _dbContext.Transactions
+                    .Include(x => x.User)
+                    .Where(x => x.User.Id == request.UserId)
                     .AsEnumerable()
                     .Where(x => DateTime.Now.DayOfYear - x.Date.DayOfYear is > 0 and < 365)
                     .OrderBy(x => x.Date)

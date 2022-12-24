@@ -2,6 +2,7 @@
 using FinanceApp.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Categories.Commands.UpdateCategory;
 
@@ -24,7 +25,16 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Guid
             throw new ValidationException(result.Errors);
         }
         
-        var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
+        var category = _dbContext.Categories
+            .Include(x => x.User)
+            .Where(x => x.User.Id == request.UserId)
+            .FirstOrDefault(x => x.Id == request.CategoryId);
         if (category is null)
         {
             throw new NotFoundException(nameof(Accounts), request.CategoryId);

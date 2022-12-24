@@ -8,10 +8,12 @@ using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Transactions;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.WebApi.Controllers;
 
+[Authorize]
 public class TransactionsController : BaseController
 {
     private readonly IMediator _mediator;
@@ -24,7 +26,10 @@ public class TransactionsController : BaseController
     [HttpGet]
     public Task<List<TransactionDto>> GetAll()
     {
-        return _mediator.Send(new GetAllTransactionsQuery());
+        return _mediator.Send(new GetAllTransactionsQuery
+        {
+            UserId = UserId
+        });
     }
     
     [HttpGet("stats/{period}")]
@@ -32,6 +37,7 @@ public class TransactionsController : BaseController
     {
         return _mediator.Send(new GetTransactionsStatsQuery
         {
+            UserId = UserId,
             Period = period
         });
     }
@@ -40,24 +46,32 @@ public class TransactionsController : BaseController
     [HttpPost("new")]
     public Task<Guid> CreateTransaction([FromBody] CreateTransactionDto createTransactionDto)
     {
-        return _mediator.Send(createTransactionDto.Adapt<CreateTransactionCommand>());
+        var command = createTransactionDto.Adapt<CreateTransactionCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
     
     [HttpPost("transfer")]
     public Task<Guid> TransferTransaction([FromBody] TransferTransactionDto transferTransactionDto)
     {
-        return _mediator.Send(transferTransactionDto.Adapt<TransferTransactionCommand>());
+        var command = transferTransactionDto.Adapt<TransferTransactionCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
     
     [HttpPut("update")]
     public Task<Guid> UpdateTransaction([FromBody] UpdateTransactionDto updateTransactionDto)
     {
-        return _mediator.Send(updateTransactionDto.Adapt<UpdateTransactionCommand>());
+        var command = updateTransactionDto.Adapt<UpdateTransactionCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
     
     [HttpDelete("delete")]
     public Task DeleteCategory([FromBody] DeleteTransactionDto deleteTransactionDto)
     {
-        return _mediator.Send(deleteTransactionDto.Adapt<DeleteTransactionCommand>());
+        var command = deleteTransactionDto.Adapt<DeleteTransactionCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
 }

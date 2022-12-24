@@ -14,7 +14,7 @@ public static class ConfigureServices
         {
             options.UseSqlite("Data Source=FinanceApp.db");
         });
-        services.AddMediatR(typeof(FinanceAppDbContext).Assembly); // assembies todo
+        services.AddMediatR(typeof(FinanceAppDbContext).Assembly);
         services.AddScoped<DbSeeder>();
         services.AddValidatorsFromAssembly(typeof(FinanceAppDbContext).Assembly);
         ValidatorOptions.Global.LanguageManager.Enabled = false;

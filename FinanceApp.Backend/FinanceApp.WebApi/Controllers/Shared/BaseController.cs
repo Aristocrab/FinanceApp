@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using FinanceApp.Domain.Exceptions;
+using FinanceApp.WebApi.Models.Users;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace FinanceApp.WebApi.Controllers.Shared;
 
@@ -6,5 +10,19 @@ namespace FinanceApp.WebApi.Controllers.Shared;
 [Route("api/[controller]")]
 public class BaseController : ControllerBase
 {
-    
+    protected Guid UserId
+    {
+        get
+        {
+            if (HttpContext.User.Identity is not ClaimsIdentity identity) throw new UserNotFoundException();
+            
+            var userClaims = identity.Claims.ToArray();
+            if (!userClaims.Any())
+            {
+                return Guid.Empty;
+            }
+
+            return Guid.Parse(userClaims.FirstOrDefault(x => x.Type == "UserId")!.Value);
+        }
+    }
 }

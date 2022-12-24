@@ -12,4 +12,5 @@ public class Transaction : Entity
 
     public Category? Category { get; set; }
     public required Account Account { get; set; }
+    public required User User { get; set; }
 }

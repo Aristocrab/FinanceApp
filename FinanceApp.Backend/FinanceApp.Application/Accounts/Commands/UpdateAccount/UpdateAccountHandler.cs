@@ -2,6 +2,7 @@
 using FinanceApp.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Accounts.Commands.UpdateAccount;
 
@@ -24,7 +25,16 @@ public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand, Guid>
             throw new ValidationException(result.Errors);
         }
         
-        var account = _dbContext.Accounts.FirstOrDefault(x => x.Id == request.AccountId);
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
+        var account = _dbContext.Accounts
+            .Include(x => x.User)
+            .Where(x => x.User.Id == request.UserId)
+            .FirstOrDefault(x => x.Id == request.AccountId);
         if (account is null)
         {
             throw new NotFoundException(nameof(Accounts), request.AccountId);

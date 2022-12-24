@@ -6,10 +6,12 @@ using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Accounts;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.WebApi.Controllers;
 
+[Authorize]
 public class AccountsController : BaseController
 {
     private readonly IMediator _mediator;
@@ -22,24 +24,33 @@ public class AccountsController : BaseController
     [HttpGet]
     public Task<List<AccountDto>> GetAll()
     {
-        return _mediator.Send(new GetAllAccountsQuery());
+        return _mediator.Send(new GetAllAccountsQuery
+        {
+            UserId = UserId
+        });
     }
     
     [HttpPost("new")]
     public Task<Guid> CreateAccount([FromBody] CreateAccountDto createAccountDto)
     {
-        return _mediator.Send(createAccountDto.Adapt<CreateAccountCommand>());
+        var command = createAccountDto.Adapt<CreateAccountCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
     
     [HttpPut("update")]
     public Task<Guid> UpdateAccount([FromBody] UpdateAccountDto updateAccountDto)
     {
-        return _mediator.Send(updateAccountDto.Adapt<UpdateAccountCommand>());
+        var command = updateAccountDto.Adapt<UpdateAccountCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
     
     [HttpDelete("delete")]
     public Task DeleteAccount([FromBody] DeleteAccountDto deleteAccountDto)
     {
-        return _mediator.Send(deleteAccountDto.Adapt<DeleteAccountCommand>());
+        var command = deleteAccountDto.Adapt<DeleteAccountCommand>();
+        command.UserId = UserId;
+        return _mediator.Send(command);
     }
 }

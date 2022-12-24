@@ -4,6 +4,7 @@ using FinanceApp.Domain.Enums;
 using FinanceApp.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Transactions.Commands.UpdateTransaction;
 
@@ -26,11 +27,23 @@ public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand
             throw new ValidationException(result.Errors);
         }
         
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
         var transaction = _dbContext.Transactions
+            .Include(x => x.User)
             .FirstOrDefault(x => x.Id == request.TransactionId);
         if (transaction is null)
         {
             throw new NotFoundException(nameof(Transactions), request.TransactionId);
+        }
+
+        if (transaction.User.Id != request.UserId)
+        {
+            throw new Exception(); // todo
         }
         
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);

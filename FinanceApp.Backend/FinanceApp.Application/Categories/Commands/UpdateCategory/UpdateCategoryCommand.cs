@@ -4,7 +4,8 @@ namespace FinanceApp.Application.Categories.Commands.UpdateCategory;
 
 public class UpdateCategoryCommand : IRequest<Guid>
 {
-    public Guid CategoryId { get; set; }
+    public required Guid UserId { get; set; }
+    public required Guid CategoryId { get; set; }
     
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Application.Database;
 using FinanceApp.Domain.Entities;
+using FinanceApp.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
 
@@ -24,8 +25,15 @@ public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Guid
             throw new ValidationException(result.Errors);
         }
         
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
         var category = new Category
         {
+            User = user,
             Name = request.Name,
         };
 

@@ -18,6 +18,8 @@ public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, Li
     {
         return Task.FromResult(
             _dbContext.Categories
+                .Include(x => x.User)
+                .Where(x => x.User.Id == request.UserId)
                 .Include(x => x.Transactions)
                 .OrderBy(x => x.TimeCreated)
                 .Adapt<List<CategoryDto>>()

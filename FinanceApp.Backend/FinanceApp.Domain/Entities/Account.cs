@@ -11,4 +11,5 @@ public class Account : Entity
     public required int Icon { get; set; }
 
     public List<Transaction> Transactions { get; set; } = null!;
+    public required User User { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Application.Database;
 using FinanceApp.Domain.Entities;
+using FinanceApp.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
 
@@ -24,8 +25,15 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Guid>
             throw new ValidationException(result.Errors);
         }
         
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
         var account = new Account
         {
+            User = user,
             Name = request.Name,
             Balance = request.Balance,
             Currency = request.Currency,

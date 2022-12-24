@@ -15,7 +15,7 @@ namespace FinanceApp.Application.Database.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
 
             modelBuilder.Entity("FinanceApp.Domain.Entities.Account", b =>
                 {
@@ -97,6 +97,28 @@ namespace FinanceApp.Application.Database.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("FinanceApp.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TimeCreated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FinanceApp.Domain.Entities.Transaction", b =>

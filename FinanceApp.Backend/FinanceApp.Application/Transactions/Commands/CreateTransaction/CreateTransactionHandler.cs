@@ -26,6 +26,12 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
             throw new ValidationException(result.Errors);
         }
         
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);
         if (category is null)
         {
@@ -44,6 +50,7 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
             Amount = request.Amount,
             Date = request.Date,
             Type = request.Type,
+            User = user,
             Category = category,
             Account = account
         };

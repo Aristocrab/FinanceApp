@@ -18,7 +18,9 @@ public class GetTransactionsByTypeHandler : IRequestHandler<GetTransactionsByTyp
     public Task<List<TransactionDto>> Handle(GetTransactionsByTypeQuery request, CancellationToken cancellationToken)
     {
         return Task.FromResult(_dbContext.Transactions
+            .Include(x => x.User)
             .Include(x => x.Category)
+            .Where(x => x.User.Id == request.UserId)
             .Where(x => x.Type == request.Type)
             .Adapt<List<TransactionDto>>());
     }

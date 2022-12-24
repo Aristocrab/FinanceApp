@@ -31,6 +31,12 @@ public class TransferTransactionHandler : IRequestHandler<TransferTransactionCom
             throw new ForbiddenException();
         }
         
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == request.UserId);
+        if (user is null)
+        {
+            throw new UserNotFoundException();
+        }
+        
         var accountFrom = _dbContext.Accounts.FirstOrDefault(x => x.Id == request.AccountFromId);
         if (accountFrom is null)
         {
@@ -49,7 +55,8 @@ public class TransferTransactionHandler : IRequestHandler<TransferTransactionCom
             Amount = request.Amount,
             Date = request.Date,
             Type = TransactionType.Transfer,
-            Account = accountFrom
+            Account = accountFrom,
+            User = user
         };
 
         accountFrom.Balance -= request.Amount;

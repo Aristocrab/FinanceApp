@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Validators" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="FluentValidation" Version="11.4.0" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
       <PackageReference Include="Mapster" Version="7.4.0-pre03" />

@@ -1,6 +1,7 @@
 ﻿using FinanceApp.Application.Database;
 using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
+using FinanceApp.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
 
@@ -27,7 +28,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, User>
         
         if (_dbContext.Users.Any(x => x.Username == request.Username))
         {
-            throw new Exception(); // todo
+            throw new UserNotFoundException(request.Username);
         }
 
         var user = new User

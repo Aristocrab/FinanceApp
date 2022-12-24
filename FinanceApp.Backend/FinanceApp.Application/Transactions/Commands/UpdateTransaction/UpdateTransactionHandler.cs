@@ -43,7 +43,7 @@ public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand
 
         if (transaction.User.Id != request.UserId)
         {
-            throw new Exception(); // todo
+            throw new UserNotFoundException();
         }
         
         var category = _dbContext.Categories.FirstOrDefault(x => x.Id == request.CategoryId);

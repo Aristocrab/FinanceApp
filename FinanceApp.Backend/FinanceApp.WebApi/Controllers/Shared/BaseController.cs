@@ -1,8 +1,6 @@
 ﻿using System.Security.Claims;
 using FinanceApp.Domain.Exceptions;
-using FinanceApp.WebApi.Models.Users;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace FinanceApp.WebApi.Controllers.Shared;
 

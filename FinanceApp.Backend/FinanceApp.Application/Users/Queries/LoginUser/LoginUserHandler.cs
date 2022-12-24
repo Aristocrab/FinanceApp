@@ -28,7 +28,7 @@ public class LoginUserHandler : IRequestHandler<LoginUserCommand, User>
         var user = _dbContext.Users.FirstOrDefault(x => x.Username == request.Username && x.Password == request.Password);
         if (user is null)
         {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException(request.Username);
         }
         
         return user;

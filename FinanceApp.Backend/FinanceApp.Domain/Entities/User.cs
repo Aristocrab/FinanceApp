@@ -6,8 +6,8 @@ public class User : Entity
 {
     public required string Username { get; set; }
     
-    public required string Password { get; set; } // todo
-    // public required string PasswordHash { get; set; }
+    public required string Password { get; set; }
+    // public required string PasswordHash { get; set; } // todo
     // public required string Salt { get; set; }
     
     public List<Transaction> Transactions { get; set; } = null!;

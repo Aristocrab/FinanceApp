@@ -6,6 +6,8 @@ public class CreateCategoryValidator : AbstractValidator<CreateCategoryCommand>
 {
     public CreateCategoryValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.Name)
             .NotEmpty().MaximumLength(128);
     }

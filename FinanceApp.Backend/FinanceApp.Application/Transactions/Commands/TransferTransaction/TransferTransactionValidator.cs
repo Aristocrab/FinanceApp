@@ -6,6 +6,8 @@ public class TransferTransactionValidator : AbstractValidator<TransferTransactio
 {
     public TransferTransactionValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.AccountFromId)
             .NotEqual(Guid.Empty);
         RuleFor(x => x.AccountToId)

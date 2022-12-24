@@ -6,6 +6,8 @@ public class UpdateCategoryValidator : AbstractValidator<UpdateCategoryCommand>
 {
     public UpdateCategoryValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.CategoryId)
             .NotEqual(Guid.Empty);
         RuleFor(x => x.Name)

@@ -6,6 +6,8 @@ public class CreateAccountValidator : AbstractValidator<CreateAccountCommand>
 {
     public CreateAccountValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.Name)
             .NotEmpty().MaximumLength(128);
         RuleFor(x => x.Balance)

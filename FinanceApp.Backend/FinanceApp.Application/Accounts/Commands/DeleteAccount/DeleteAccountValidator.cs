@@ -6,6 +6,8 @@ public class DeleteAccountValidator : AbstractValidator<DeleteAccountCommand>
 {
     public DeleteAccountValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.AccountId)
             .NotEqual(Guid.Empty);
     }

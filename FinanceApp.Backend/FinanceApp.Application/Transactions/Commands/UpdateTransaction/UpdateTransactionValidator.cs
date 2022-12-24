@@ -6,6 +6,8 @@ public class UpdateTransactionValidator : AbstractValidator<UpdateTransactionCom
 {
     public UpdateTransactionValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.TransactionId)
             .NotEqual(Guid.Empty);
         RuleFor(x => x.CategoryId)

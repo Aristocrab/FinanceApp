@@ -6,6 +6,8 @@ public class GetCategoriesStatsValidator : AbstractValidator<GetCategoriesStatsQ
 {
     public GetCategoriesStatsValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.Type)
             .IsInEnum();
         RuleFor(x => x.AccountId)

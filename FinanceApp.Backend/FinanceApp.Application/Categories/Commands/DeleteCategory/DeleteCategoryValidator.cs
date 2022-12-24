@@ -6,6 +6,8 @@ public class DeleteCategoryValidator : AbstractValidator<DeleteCategoryCommand>
 {
     public DeleteCategoryValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.CategoryId)
             .NotEqual(Guid.Empty);
     }

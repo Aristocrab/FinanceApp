@@ -6,6 +6,8 @@ public class GetTransactionsStatsValidator : AbstractValidator<GetTransactionsSt
 {
     public GetTransactionsStatsValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.Period)
             .IsInEnum();
     }

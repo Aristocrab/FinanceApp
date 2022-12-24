@@ -6,6 +6,8 @@ public class CreateTransactionValidator : AbstractValidator<CreateTransactionCom
 {
     public CreateTransactionValidator()
     {
+        RuleFor(x => x.UserId)
+            .NotEqual(Guid.Empty);
         RuleFor(x => x.CategoryId)
             .NotEqual(Guid.Empty);
         RuleFor(x => x.AccountId)

@@ -16,12 +16,15 @@ export class TransactionComponent {
   @Input() transaction!: TransactionDto;
   @Output() update = new EventEmitter<TransactionDto>();
   
-  constructor(private transactionsService: TransactionsService, private accountsService: AccountsService) {
+  constructor(private transactionsService: TransactionsService, public accountsService: AccountsService) {
     
   }
-  
   getIcon(accountId: string) {
-    return this.accountsService.icons[this.accountsService.accounts!.find(x => x.id === accountId)!.icon];
+    if(this.accountsService.accounts && this.accountsService.accounts!.find(x => x.id === accountId)) {
+      return this.accountsService.icons[this.accountsService.accounts!.find(x => x.id === accountId)!.icon];
+    } else {
+      return this.accountsService.icons[0];
+    }
   }
   
   updateTransaction(): void {

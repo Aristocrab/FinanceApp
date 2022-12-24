@@ -19,11 +19,17 @@ import { SumAccountsBalancesPipe } from './pipes/sum-accounts-balances.pipe';
 import { FilterTransactionsByAccountPipe } from './pipes/filter-transactions-by-account.pipe';
 import { ConfigButtonsComponent } from './components/config-buttons/config-buttons.component';
 import { AccountsModalComponent } from './components/modals/accounts-modal/accounts-modal.component';
-import { AlertsComponent } from './components/alerts/alerts.component';
 import { CategoriesModalComponent } from './components/modals/categories-modal/categories-modal.component';
 import { TransferModalComponent } from './components/modals/transfer-modal/transfer-modal.component';
 import { CreateTransactionModalComponent } from './components/modals/create-transaction-modal/create-transaction-modal.component';
 import { UpdateTransactionModalComponent } from './components/modals/update-transaction-modal/update-transaction-modal.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.component';
+import { MainComponent } from './components/main/main.component';
+
+export function tokenGetter() {
+  return localStorage.getItem("jwtToken");
+}
 
 @NgModule({
   declarations: [
@@ -40,10 +46,11 @@ import { UpdateTransactionModalComponent } from './components/modals/update-tran
     ConfigButtonsComponent,
     AccountsModalComponent,
     CategoriesModalComponent,
-    AlertsComponent,
     TransferModalComponent,
     CreateTransactionModalComponent,
     UpdateTransactionModalComponent,
+    AuthModalComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +60,14 @@ import { UpdateTransactionModalComponent } from './components/modals/update-tran
     
     NgbModule,
     NgChartsModule,
-    NgxBootstrapIconsModule.pick(allIcons)
+    NgxBootstrapIconsModule.pick(allIcons),
+    
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:5238'],
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

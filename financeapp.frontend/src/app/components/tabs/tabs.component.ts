@@ -37,6 +37,10 @@ export class TabsComponent implements OnInit {
     if(!this.accountsService.selectedAccount) {
       this.selectedAccountId = undefined;
     }
+  }
+  
+  selectAccount() {
+    this.onAccountChange();
     this.accountsService.selectedAccountUpdated.emit();
   }
   

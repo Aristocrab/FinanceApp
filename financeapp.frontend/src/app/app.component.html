@@ -1,10 +1,11 @@
-<div class="container">
-    <div class="left">
-        <app-charts></app-charts>
-        <app-buttons></app-buttons>
+<div>
+
+    <div *ngIf="!isUserLoggedIn()">
+        <app-auth-modal></app-auth-modal>
     </div>
-    <div class="right">
-        <app-tabs></app-tabs>
-        <app-new-transaction></app-new-transaction>
-    </div>
+
+    <ng-template [ngIf]="isUserLoggedIn()">
+        <app-main></app-main>
+    </ng-template>
+    
 </div>

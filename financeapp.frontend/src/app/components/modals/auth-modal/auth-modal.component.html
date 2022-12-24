@@ -1,0 +1,42 @@
+<div class="modal d-block">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-body">
+            <div class="login">
+                <h4>Login</h4>
+                <form>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Username</label>
+                      <input [(ngModel)]="loginUser.username" name="username" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                      <input [(ngModel)]="loginUser.password" name="password" type="password" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <button type="submit" class="btn btn-primary" (click)="login()">Login</button>
+                  </form>
+            </div>
+            
+            <div class="register">
+                <h4>Register</h4>
+                <form>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Username</label>
+                      <input [(ngModel)]="registerUser.username" name="username" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                      <input [(ngModel)]="registerUser.password" name="password" type="password" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <button type="submit" class="btn btn-primary" (click)="register()">Register</button>
+                  </form>
+            </div>
+            
+        </div>
+        
+        <div class="modal-footer d-flex">
+            <button (click)="demoLogin()" type="button" class="btn btn-outline-primary demo-button" data-bs-dismiss="modal">Demo</button>
+        </div>
+    </div>
+    </div>
+</div>

@@ -20,7 +20,7 @@
 		</div>
 		
 		<div class="input-group mt-3 account-select" *ngIf="accountsService.accounts">			
-			<select class="form-select" [(ngModel)]="selectedAccountId" (change)="onAccountChange()">
+			<select class="form-select" [(ngModel)]="selectedAccountId" (change)="selectAccount()">
 				<option value="undefined" selected>All accounts</option>
 				<option *ngFor="let account of accountsService.accounts" [value]="account.id">{{account.name}}</option>
 			</select>

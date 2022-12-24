@@ -23,7 +23,6 @@ export class CategoriesService extends ApiService {
   fetchCategories() {
     this.getCategories().subscribe(categories => {
       this.categories = categories;
-      // this.categoriesUpdated.emit(categories);
     });
   }
   

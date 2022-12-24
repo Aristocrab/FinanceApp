@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-buttons',
@@ -8,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ConfigButtonsComponent {
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private usersService: UsersService) {
   }
   
   openModal(modal: any) {
@@ -19,5 +20,9 @@ export class ConfigButtonsComponent {
   
   closeModal(modal: any) {
     this.modalService.dismissAll(modal);
+  }
+  
+  logout() {
+    this.usersService.logout();
   }
 }

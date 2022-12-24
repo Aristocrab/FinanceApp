@@ -30,10 +30,11 @@ export class TransactionsListComponent implements OnInit {
   
   constructor(public categoriesService: CategoriesService,
     public accountsService: AccountsService,
-    private modalService: NgbModal,    ) {
+    public transactionsService: TransactionsService,
+    private modalService: NgbModal) {
   }
   
-  ngOnInit(): void {    
+  ngOnInit(): void {
   }
   
   selectTransaction(transaction: TransactionDto, content: any) {

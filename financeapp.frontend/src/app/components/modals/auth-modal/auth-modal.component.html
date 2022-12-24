@@ -4,14 +4,24 @@
         <div class="modal-body">
             <div class="login">
                 <h4>Login</h4>
-                <form>
+                <form #loginForm="ngForm">
                     <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Username</label>
-                      <input [(ngModel)]="loginUser.username" name="username" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="name">
+                            <span *ngIf="!(loginUsername.errors && (loginUsername.dirty || loginUsername.touched))">Username</span>
+                            <span *ngIf="loginUsername.errors && (loginUsername.dirty || loginUsername.touched)" style="color: crimson;">
+                                Username is required
+                            </span>
+                        </label>
+                      <input [ngClass]="{ 'is-invalid': loginUsername.errors && (loginUsername.dirty || loginUsername.touched) }" #loginUsername="ngModel" [(ngModel)]="loginUser.username" name="username" type="text" class="form-control" id="loginUsername" required>
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Password</label>
-                      <input [(ngModel)]="loginUser.password" name="password" type="password" class="form-control" id="exampleInputPassword1">
+                        <label for="name">
+                            <span *ngIf="!(loginPassword.errors && (loginPassword.dirty || loginPassword.touched))">Password</span>
+                            <span *ngIf="loginPassword.errors && (loginPassword.dirty || loginPassword.touched)" style="color: crimson;">
+                                Password is required
+                            </span>
+                        </label>
+                      <input [ngClass]="{ 'is-invalid': loginPassword.errors && (loginPassword.dirty || loginPassword.touched) }" #loginPassword="ngModel" [(ngModel)]="loginUser.password" name="password" type="password" class="form-control" id="loginPassword" required>
                     </div>
                     <button type="submit" class="btn btn-primary" (click)="login()">Login</button>
                   </form>
@@ -19,14 +29,24 @@
             
             <div class="register">
                 <h4>Register</h4>
-                <form>
+                <form #registerForm="ngForm">
                     <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Username</label>
-                      <input [(ngModel)]="registerUser.username" name="username" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="name">
+                            <span *ngIf="!(registerUsername.errors && (registerUsername.dirty || registerUsername.touched))">Username</span>
+                            <span *ngIf="registerUsername.errors && (registerUsername.dirty || registerUsername.touched)" style="color: crimson;">
+                                Username is required
+                            </span>
+                        </label>
+                      <input [ngClass]="{ 'is-invalid': registerUsername.errors && (registerUsername.dirty || registerUsername.touched) }" #registerUsername="ngModel" [(ngModel)]="registerUser.username" name="username" type="text" class="form-control" id="registerUsername" required>
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Password</label>
-                      <input [(ngModel)]="registerUser.password" name="password" type="password" class="form-control" id="exampleInputPassword1">
+                        <label for="name">
+                            <span *ngIf="!(registerPassword.errors && (registerPassword.dirty || registerPassword.touched))">Password</span>
+                            <span *ngIf="registerPassword.errors && (registerPassword.dirty || registerPassword.touched)" style="color: crimson;">
+                                Password is required
+                            </span>
+                        </label>
+                      <input [ngClass]="{ 'is-invalid': registerPassword.errors && (registerPassword.dirty || registerPassword.touched) }" #registerPassword="ngModel" [(ngModel)]="registerUser.password" name="password" type="password" class="form-control" id="registerPassword" required>
                     </div>
                     <button type="submit" class="btn btn-primary" (click)="register()">Register</button>
                   </form>

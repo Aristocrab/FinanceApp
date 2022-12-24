@@ -41,7 +41,7 @@
 		</div>
 	</div>
 
-	<div class="items mt-3">
+	<div class="items mt-3" *ngIf="transactionsService.transactions.length != 0">
 		<app-transactions-list [transactions]="transactionsService.transactions 
 			| filterTransactionsByType: active 
 			| filterTransactionsByAccount: accountsService.selectedAccount

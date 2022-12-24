@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Database;
 
@@ -14,23 +15,31 @@ public class DbSeeder
 
     public void SeedDb()
     {
-        if (_dbContext.Users.Any(x => x.Id == new Guid("D3AC2B50-6CD3-4D38-8EC8-C8D3827FB3EF")))
+        // Reset demo user's data
+        var existingDemoUser = _dbContext.Users
+            .Include(x => x.Transactions)
+            .Include(x => x.Categories)
+            .Include(x => x.Accounts)
+            .FirstOrDefault(x => x.Id == new Guid("D3AC2B50-6CD3-4D38-8EC8-C8D3827FB3EF"));
+        if (existingDemoUser is not null)
         {
-            foreach (var transaction in _dbContext.Transactions)
+            foreach (var transaction in existingDemoUser.Transactions)
             {
                 _dbContext.Transactions.Remove(transaction);
             }
-            foreach (var account in _dbContext.Accounts)
+            foreach (var account in existingDemoUser.Accounts)
             {
                 _dbContext.Accounts.Remove(account);
             }
-            foreach (var category in _dbContext.Categories)
+            foreach (var category in existingDemoUser.Categories)
             {
                 _dbContext.Categories.Remove(category);
             }
+
+            _dbContext.Users.Remove(existingDemoUser);
         }
         
-        // demo user
+        // Demo user
         var user = new User
         {
             Id = new Guid("D3AC2B50-6CD3-4D38-8EC8-C8D3827FB3EF"),

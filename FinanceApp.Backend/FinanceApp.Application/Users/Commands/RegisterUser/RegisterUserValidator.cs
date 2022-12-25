@@ -7,8 +7,12 @@ public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
     public RegisterUserValidator()
     {
         RuleFor(x => x.Username)
-            .NotEmpty().MaximumLength(32);
+            .NotEmpty()
+            .MinimumLength(6)
+            .MaximumLength(32);
         RuleFor(x => x.Password)
-            .NotEmpty().MaximumLength(64);
+            .NotEmpty()
+            .MinimumLength(6)
+            .MaximumLength(64);
     }
 }

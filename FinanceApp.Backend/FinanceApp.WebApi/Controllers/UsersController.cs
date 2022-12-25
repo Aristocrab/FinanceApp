@@ -30,7 +30,7 @@ public class UsersController : BaseController
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.Username),
-            new("UserId", user.Id.ToString())
+            new("userId", user.Id.ToString())
         };
 
         var secretBytes = Encoding.UTF8.GetBytes(Constants.SecretKey);
@@ -42,8 +42,7 @@ public class UsersController : BaseController
             Constants.Audience, 
             claims,
             notBefore: DateTime.Now,
-            expires: DateTime.Now.AddMinutes(60),
-            signingCredentials);
+            signingCredentials: signingCredentials);
 
         var value = new JwtSecurityTokenHandler().WriteToken(token);
 

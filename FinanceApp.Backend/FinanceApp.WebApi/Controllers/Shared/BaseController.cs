@@ -20,7 +20,7 @@ public class BaseController : ControllerBase
                 return Guid.Empty;
             }
 
-            return Guid.Parse(userClaims.FirstOrDefault(x => x.Type == "UserId")!.Value);
+            return Guid.Parse(userClaims.FirstOrDefault(x => x.Type == "userId")!.Value);
         }
     }
 }

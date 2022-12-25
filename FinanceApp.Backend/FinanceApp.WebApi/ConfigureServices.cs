@@ -47,7 +47,8 @@ public static class ConfigureServices
                 {
                     ValidIssuer = Constants.Issuer,
                     ValidAudience = Constants.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.SecretKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.SecretKey)),
+                    ValidateLifetime = false
                 };
             });
         services.AddAuthorization();

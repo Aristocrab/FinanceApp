@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { UserDto } from '../models/Users/UserDto';
 import { AccountsService } from './accounts.service';
 import { ApiService } from './api.service';
@@ -28,20 +29,28 @@ export class UsersService extends ApiService {
     return localStorage.getItem('jwtToken') || '';
   }
   
-  login(user: UserDto) {
-    this.http.post<string>(`${UsersService.baseUrl}/Users/login`, user, { responseType: 'text' as 'json' })
-      .subscribe(response => {
-        localStorage.setItem('jwtToken', response);
-        this.loggedIn.emit(true);
-      });
+  login(user: UserDto): Observable<string> {
+    return this.http.post<string>(`${UsersService.baseUrl}/Users/login`, user, { responseType: 'text' as 'json' })
+      .pipe(
+        tap(
+          (response: string) => {
+            localStorage.setItem('jwtToken', response);
+            this.loggedIn.emit(true);
+          }
+        ),
+      );
   }
   
-  register(user: UserDto) {
-    this.http.post<string>(`${UsersService.baseUrl}/Users/register`, user, { responseType: 'text' as 'json' })
-      .subscribe((response: string) => {
-        localStorage.setItem('jwtToken', response);
-        this.loggedIn.emit(true);
-      });
+  register(user: UserDto): Observable<string> {
+    return this.http.post<string>(`${UsersService.baseUrl}/Users/register`, user, { responseType: 'text' as 'json' })
+      .pipe(
+        tap(
+          (response: string) => {
+            localStorage.setItem('jwtToken', response);
+            this.loggedIn.emit(true);
+          }
+        ),
+      );
   }
   
   logout() {

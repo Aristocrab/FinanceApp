@@ -13,7 +13,7 @@ import { TransactionsListComponent } from './components/transactions-list/transa
 import { FilterTransactionsByTypePipe } from './pipes/filter-transactions-by-type.pipe';
 import { SearchTransactionPipe } from './pipes/search-transaction.pipe';
 import { FormsModule } from '@angular/forms';
-import { NgxBootstrapIconsModule, allIcons, ColorTheme } from 'ngx-bootstrap-icons';
+import { NgxBootstrapIconsModule, allIcons } from 'ngx-bootstrap-icons';
 import { NewTransactionComponent } from './components/new-transaction/new-transaction.component';
 import { SumAccountsBalancesPipe } from './pipes/sum-accounts-balances.pipe';
 import { FilterTransactionsByAccountPipe } from './pipes/filter-transactions-by-account.pipe';
@@ -26,10 +26,7 @@ import { UpdateTransactionModalComponent } from './components/modals/update-tran
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.component';
 import { MainComponent } from './components/main/main.component';
-
-export function tokenGetter() {
-  return localStorage.getItem("jwtToken");
-}
+import { ApiService } from './services/api.service';
 
 @NgModule({
   declarations: [
@@ -64,8 +61,8 @@ export function tokenGetter() {
     
     JwtModule.forRoot({
       config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:5238'],
+        tokenGetter: () => localStorage.getItem("jwtToken"),
+        allowedDomains: [ApiService.BackendUrl],
       },
     }),
   ],

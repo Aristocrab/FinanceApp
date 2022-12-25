@@ -8,7 +8,7 @@
         <div class="modal-body">
             <div class="login">
                 <h4>Login</h4>
-                <form #loginForm="ngForm">
+                <form #loginForm="ngForm" (ngSubmit)="login()">
                     <div class="mb-3">
                         <label for="name">
                             <span *ngIf="!(loginUsername.errors && (loginUsername.dirty || loginUsername.touched))">Username</span>
@@ -27,13 +27,13 @@
                         </label>
                       <input [ngClass]="{ 'is-invalid': loginPassword.errors && (loginPassword.dirty || loginPassword.touched) }" #loginPassword="ngModel" [(ngModel)]="loginUser.password" name="password" type="password" class="form-control" id="loginPassword" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" (click)="login()">Login</button>
+                    <button type="submit" class="btn btn-primary" (click)="buttonClicked(loginForm, $event)">Login</button>
                   </form>
             </div>
             
             <div class="register">
                 <h4>Register</h4>
-                <form #registerForm="ngForm">
+                <form #registerForm="ngForm" (ngSubmit)="register()">
                     <div class="mb-3">
                         <label for="name">
                             <span *ngIf="!(registerUsername.errors && (registerUsername.dirty || registerUsername.touched))">Username</span>
@@ -52,14 +52,20 @@
                         </label>
                       <input [ngClass]="{ 'is-invalid': registerPassword.errors && (registerPassword.dirty || registerPassword.touched) }" #registerPassword="ngModel" [(ngModel)]="registerUser.password" name="password" type="password" class="form-control" id="registerPassword" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" (click)="register()">Register</button>
+                    <button type="submit" class="btn btn-primary" (click)="buttonClicked(registerForm, $event)">Register</button>
                   </form>
             </div>
         </div>
         
         <div class="modal-body d-flex">
-            <button (click)="demoLogin()" type="button" class="btn btn-outline-primary demo-button" data-bs-dismiss="modal">Demo</button>
+            <button (click)="demoLogin()" type="button" class="btn btn-outline-primary demo-button fs-5" data-bs-dismiss="modal">Demo</button>
         </div>
     </div>
+    
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
     </div>
+    
+      
 </div>

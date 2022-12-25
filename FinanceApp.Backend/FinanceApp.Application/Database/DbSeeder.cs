@@ -108,7 +108,7 @@ public class DbSeeder
                 Category = categories[0],
                 Amount = 250,
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-2)),
-                Description = "Піца у Івана",
+                Description = "Pizza",
                 Type = TransactionType.Expense,
                 User = user
             },
@@ -118,7 +118,7 @@ public class DbSeeder
                 Category = categories[1],
                 Amount = 360,
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-1)),
-                Description = "36 крилець KFC",
+                Description = "KFC",
                 Type = TransactionType.Expense,
                 User = user
             },
@@ -126,9 +126,9 @@ public class DbSeeder
             {
                 Account = accounts[1],
                 Category = categories[1],
-                Amount = 39,
+                Amount = 120,
                 Date = DateOnly.FromDateTime(DateTime.Now),
-                Description = "Пиво",
+                Description = "Sushi",
                 Type = TransactionType.Expense,
                 User = user
             },
@@ -136,9 +136,9 @@ public class DbSeeder
             {
                 Account = accounts[1],
                 Category = categories[2],
-                Amount = 100,
+                Amount = 6000,
                 Date = DateOnly.FromDateTime(DateTime.Now),
-                Description = "Зарплата",
+                Description = "Salary",
                 Type = TransactionType.Income,
                 User = user
             },
@@ -148,7 +148,7 @@ public class DbSeeder
                 Category = categories[2],
                 Amount = 100,
                 Date = DateOnly.FromDateTime(DateTime.Now),
-                Description = "Зарплата 2",
+                Description = "Income",
                 Type = TransactionType.Income,
                 User = user
             },
@@ -156,9 +156,9 @@ public class DbSeeder
             {
                 Account = accounts[1],
                 Category = categories[2],
-                Amount = 100,
+                Amount = 3000,
                 Date = DateOnly.FromDateTime(DateTime.Now),
-                Description = "Зарплата 3",
+                Description = "Birthday gift",
                 Type = TransactionType.Income,
                 User = user
             },
@@ -167,7 +167,7 @@ public class DbSeeder
                 Account = accounts[1],
                 Amount = 200,
                 Date = DateOnly.FromDateTime(DateTime.Now),
-                Description = "Переказ",
+                Description = "Transfer",
                 Type = TransactionType.Transfer,
                 User = user
             },

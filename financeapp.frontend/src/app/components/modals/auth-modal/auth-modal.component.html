@@ -1,6 +1,10 @@
 <div class="modal d-block">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" style="flex-direction: column; justify-content: center;">
+        
         <div class="modal-content">
+            <div style="display: flex; justify-content: center">
+                <h1 class="mt-2 mb-0">FinanceApp</h1>
+            </div>
         <div class="modal-body">
             <div class="login">
                 <h4>Login</h4>
@@ -51,10 +55,9 @@
                     <button type="submit" class="btn btn-primary" (click)="register()">Register</button>
                   </form>
             </div>
-            
         </div>
         
-        <div class="modal-footer d-flex">
+        <div class="modal-body d-flex">
             <button (click)="demoLogin()" type="button" class="btn btn-outline-primary demo-button" data-bs-dismiss="modal">Demo</button>
         </div>
     </div>

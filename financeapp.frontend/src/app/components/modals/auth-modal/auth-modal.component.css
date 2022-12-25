@@ -1,5 +1,5 @@
 .modal-dialog {
-    max-width: 50%;
+    max-width: 700px;
 }
 
 form, .login, .register {
@@ -7,11 +7,8 @@ form, .login, .register {
 }
 
 .login {
-    margin-right: .25rem;
-}
-
-.register {
-    margin-left: .25rem;
+    padding-right: 1rem;
+    border-right: 1px solid #d2d2d2;
 }
 
 .modal-body {

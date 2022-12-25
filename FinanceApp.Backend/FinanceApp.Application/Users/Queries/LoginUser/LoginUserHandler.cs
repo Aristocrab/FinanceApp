@@ -25,10 +25,14 @@ public class LoginUserHandler : IRequestHandler<LoginUserCommand, User>
             throw new ValidationException(result.Errors);
         }
 
-        var user = _dbContext.Users.FirstOrDefault(x => x.Username == request.Username && x.Password == request.Password);
+        var user = _dbContext.Users.FirstOrDefault(x => x.Username == request.Username);
         if (user is null)
         {
             throw new UserNotFoundException(request.Username);
+        }
+        if (user.Password != request.Password)
+        {
+            throw new PasswordIncorrectException();
         }
         
         return user;

@@ -42,6 +42,7 @@ public class CustomExceptionsHandlerMiddleware
                 code = HttpStatusCode.NotFound;
                 break;
             case ForbiddenException:
+            case PasswordIncorrectException:
                 code = HttpStatusCode.Forbidden;
                 break;
         }

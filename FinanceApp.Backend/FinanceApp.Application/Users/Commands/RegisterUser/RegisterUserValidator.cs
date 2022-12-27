@@ -8,11 +8,11 @@ public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
     {
         RuleFor(x => x.Username)
             .NotEmpty()
-            .MinimumLength(6)
+            .MinimumLength(4)
             .MaximumLength(32);
         RuleFor(x => x.Password)
             .NotEmpty()
-            .MinimumLength(6)
+            .MinimumLength(4)
             .MaximumLength(64);
     }
 }

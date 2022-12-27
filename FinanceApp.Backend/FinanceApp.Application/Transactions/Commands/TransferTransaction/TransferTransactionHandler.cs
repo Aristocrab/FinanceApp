@@ -1,4 +1,5 @@
-﻿using FinanceApp.Application.Database;
+﻿using FinanceApp.Application.Common.Helpers;
+using FinanceApp.Application.Database;
 using FinanceApp.Domain.Entities;
 using FinanceApp.Domain.Enums;
 using FinanceApp.Domain.Exceptions;
@@ -47,6 +48,12 @@ public class TransferTransactionHandler : IRequestHandler<TransferTransactionCom
         if (accountTo is null)
         {
             throw new NotFoundException(nameof(Account), request.AccountToId);
+        }
+
+        if (accountFrom.Currency != accountTo.Currency)
+        {
+            request.Amount =
+                ChangeCurrencyHelper.ChangeCurrency(request.Amount, accountFrom.Currency, accountTo.Currency);
         }
 
         var transaction = new Transaction

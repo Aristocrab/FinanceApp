@@ -15,7 +15,6 @@ import { SearchTransactionPipe } from './pipes/search-transaction.pipe';
 import { FormsModule } from '@angular/forms';
 import { NgxBootstrapIconsModule, allIcons } from 'ngx-bootstrap-icons';
 import { NewTransactionComponent } from './components/new-transaction/new-transaction.component';
-import { SumAccountsBalancesPipe } from './pipes/sum-accounts-balances.pipe';
 import { FilterTransactionsByAccountPipe } from './pipes/filter-transactions-by-account.pipe';
 import { ConfigButtonsComponent } from './components/config-buttons/config-buttons.component';
 import { AccountsModalComponent } from './components/modals/accounts-modal/accounts-modal.component';
@@ -38,7 +37,6 @@ import { ApiService } from './services/api.service';
     FilterTransactionsByTypePipe,
     SearchTransactionPipe,
     NewTransactionComponent,
-    SumAccountsBalancesPipe,
     FilterTransactionsByAccountPipe,
     ConfigButtonsComponent,
     AccountsModalComponent,

@@ -1,11 +1,13 @@
-﻿using FinanceApp.Application.Database;
+﻿using FinanceApp.Application.Common.Helpers;
+using FinanceApp.Application.Database;
+using FinanceApp.Domain.Enums;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Application.Accounts.Queries.GetAllAccounts;
 
-public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsQuery, List<AccountDto>>
+public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsQuery, UserAccountsDto>
 {
     private readonly FinanceAppDbContext _dbContext;
 
@@ -14,14 +16,20 @@ public class GetAllAccountsHandler : IRequestHandler<GetAllAccountsQuery, List<A
         _dbContext = dbContext;
     }
     
-    public Task<List<AccountDto>> Handle(GetAllAccountsQuery request, CancellationToken cancellationToken)
+    public Task<UserAccountsDto> Handle(GetAllAccountsQuery request, CancellationToken cancellationToken)
     {
-        return _dbContext.Accounts
+        var accounts = _dbContext.Accounts
+            .Include(x => x.Transactions)
             .Include(x => x.User)
             .Where(x => x.User.Id == request.UserId)
-            .Include(x => x.Transactions)
             .OrderBy(x => x.TimeCreated)
-            .ProjectToType<AccountDto>()
-            .ToListAsync(cancellationToken: cancellationToken);
+            .ToList();
+
+        return Task.FromResult(new UserAccountsDto
+        {
+            Accounts = accounts.Adapt<List<AccountDto>>(),
+            AccountsBalanceSum = accounts
+                .Sum(x => ChangeCurrencyHelper.ChangeCurrency(x.Balance, x.Currency, Currency.UAH))
+        });
     }
 }

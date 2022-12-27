@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { IconName } from 'ngx-bootstrap-icons';
-import { catchError, throwError } from 'rxjs';
 import { AccountDto } from '../models/Accounts/AccountDto';
 import { CreateAccountDto } from '../models/Accounts/CreateAccountDto';
 import { DeleteAccountDto } from '../models/Accounts/DeleteAccountDto';
 import { UpdateAccountDto } from '../models/Accounts/UpdateAccountDto';
+import { UserAccountsDto } from '../models/Accounts/UserAccountsDto';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class AccountsService extends ApiService {
     
   public selectedAccount: AccountDto | undefined;
   public accounts: AccountDto[] | undefined;
+  public accountsBalanceSum: number | undefined;
   
   public icons: IconName[] = [
     "cash", 
@@ -32,12 +33,13 @@ export class AccountsService extends ApiService {
   
   fetchAccounts() {
     this.getAccounts().subscribe(accounts => {
-      this.accounts = accounts;
+      this.accounts = accounts.accounts;
+      this.accountsBalanceSum = accounts.accountsBalanceSum;
     });
   }
   
   getAccounts() {
-    return this.http.get<AccountDto[]>(`${ApiService.baseUrl}/Accounts`);
+    return this.http.get<UserAccountsDto>(`${ApiService.baseUrl}/Accounts`);
   }
   
   createAccount(account: CreateAccountDto) {

@@ -26,7 +26,7 @@
 			</select>
 			
 			<span class="input-group-text" *ngIf="accountsService.selectedAccount == undefined; else elseBlock">
-				Balance: {{accountsService.accounts! | sumAccountsBalances | currency:'UAH':'symbol-narrow':'1.0-0'}}
+				Balance: {{accountsService.accountsBalanceSum | currency:'UAH':'symbol-narrow':'1.0-0'}}
 			</span>
 			<ng-template #elseBlock>
 				<span class="input-group-text">

@@ -2,6 +2,7 @@
 using FinanceApp.Application.Accounts.Commands.DeleteAccount;
 using FinanceApp.Application.Accounts.Commands.UpdateAccount;
 using FinanceApp.Application.Accounts.Queries.GetAllAccounts;
+using FinanceApp.Domain.Enums;
 using FinanceApp.WebApi.Controllers.Shared;
 using FinanceApp.WebApi.Models.Accounts;
 using Mapster;
@@ -22,7 +23,7 @@ public class AccountsController : BaseController
     }
     
     [HttpGet]
-    public Task<List<AccountDto>> GetAll()
+    public Task<UserAccountsDto> GetAll()
     {
         return _mediator.Send(new GetAllAccountsQuery
         {

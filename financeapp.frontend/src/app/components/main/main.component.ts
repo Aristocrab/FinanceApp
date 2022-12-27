@@ -13,12 +13,13 @@ export class MainComponent implements OnInit {
   constructor(private accountsService: AccountsService, 
     private transactionsService: TransactionsService,
     private categoriesService: CategoriesService,
-  ) { }
-  
-  ngOnInit(): void {
+  ) {
     this.accountsService.fetchAccounts();
     this.categoriesService.fetchCategories();
     this.transactionsService.fetchTransactions();
+   }
+  
+  ngOnInit(): void {
   }
   
 }

@@ -56,6 +56,8 @@ public class CategoriesController : BaseController
     [HttpPost("new")]
     public Task<Guid> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = createCategoryDto.Adapt<CreateCategoryCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);
@@ -64,6 +66,8 @@ public class CategoriesController : BaseController
     [HttpPut("update")]
     public Task<Guid> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = updateCategoryDto.Adapt<UpdateCategoryCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);
@@ -72,6 +76,8 @@ public class CategoriesController : BaseController
     [HttpDelete("delete")]
     public Task DeleteCategory([FromBody] DeleteCategoryDto deleteCategoryDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = deleteCategoryDto.Adapt<DeleteCategoryCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);

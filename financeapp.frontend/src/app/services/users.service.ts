@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, tap } from 'rxjs';
 import { UserDto } from '../models/Users/UserDto';
 import { AccountsService } from './accounts.service';
@@ -12,12 +13,17 @@ import { TransactionsService } from './transactions.service';
 })
 export class UsersService extends ApiService {
 
+  public get isDemoMode(): boolean {
+    let userId: string = this.jwtHelper.decodeToken(UsersService.GetJwtToken()).userId;
+    return userId.toUpperCase() == "D3AC2B50-6CD3-4D38-8EC8-C8D3827FB3EF";
+  }
   @Output() loggedIn = new EventEmitter<boolean>();
   
   constructor(private http: HttpClient, 
     private transactionsService: TransactionsService, 
     private accountsService: AccountsService,
-    private categoriesService: CategoriesService) {
+    private categoriesService: CategoriesService,
+    private jwtHelper: JwtHelperService) {
     super();
   }
   

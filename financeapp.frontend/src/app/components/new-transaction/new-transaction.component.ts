@@ -1,10 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateTransactionDto } from 'src/app/models/Transactions/CreateTransactionDto';
-import { AccountsService } from 'src/app/services/accounts.service';
-import { CategoriesService } from 'src/app/services/categories.service';
-import { TransactionsService } from 'src/app/services/transactions.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-new-transaction',
@@ -12,8 +8,12 @@ import { TransactionsService } from 'src/app/services/transactions.service';
   styleUrls: ['./new-transaction.component.css']
 })
 export class NewTransactionComponent {
+  
+  public get isDemoMode(): boolean {
+    return this.usersService.isDemoMode;
+  }
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private usersService: UsersService) {
   }
 
   open(content: any) {

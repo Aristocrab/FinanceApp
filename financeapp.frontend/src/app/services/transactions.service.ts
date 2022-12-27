@@ -14,7 +14,7 @@ import { ApiService } from './api.service';
 })
 export class TransactionsService extends ApiService {
 
-  public transactions: TransactionDto[] = [];
+  public transactions: TransactionDto[] | null = null;
   
   incomeTransactionsUpdated = new EventEmitter();
   expensesTransactionsUpdated = new EventEmitter();
@@ -26,7 +26,11 @@ export class TransactionsService extends ApiService {
   fetchTransactions() {
     return this.http.get<TransactionDto[]>(`${ApiService.baseUrl}/Transactions`)
     .subscribe(result => {
-      this.transactions = result;
+      if(result.length > 0) {
+        this.transactions = result;
+      } else {
+        this.transactions = null;
+      }
     });
   }
   

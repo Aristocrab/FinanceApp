@@ -35,6 +35,7 @@ export class TransactionsListComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    console.log(this.transactions);
   }
   
   selectTransaction(transaction: TransactionDto, content: any) {

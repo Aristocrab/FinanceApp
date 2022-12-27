@@ -41,14 +41,12 @@
 		</div>
 	</div>
 
-	<div class="items mt-3" *ngIf="transactionsService.transactions.length != 0">
-		<app-transactions-list [transactions]="transactionsService.transactions 
+	<div class="items mt-3" *ngIf="transactionsService.transactions?.length != 0">
+		<app-transactions-list [transactions]="transactionsService.transactions!
 			| filterTransactionsByType: active 
 			| filterTransactionsByAccount: accountsService.selectedAccount
 			| searchTransaction : searchText"></app-transactions-list>
 	</div>
-
-</div>
 
 <ng-template #transfer>
 	<app-transfer-modal></app-transfer-modal>

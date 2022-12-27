@@ -34,6 +34,8 @@ public class AccountsController : BaseController
     [HttpPost("new")]
     public Task<Guid> CreateAccount([FromBody] CreateAccountDto createAccountDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = createAccountDto.Adapt<CreateAccountCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);
@@ -42,6 +44,8 @@ public class AccountsController : BaseController
     [HttpPut("update")]
     public Task<Guid> UpdateAccount([FromBody] UpdateAccountDto updateAccountDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = updateAccountDto.Adapt<UpdateAccountCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);
@@ -50,6 +54,8 @@ public class AccountsController : BaseController
     [HttpDelete("delete")]
     public Task DeleteAccount([FromBody] DeleteAccountDto deleteAccountDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = deleteAccountDto.Adapt<DeleteAccountCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);

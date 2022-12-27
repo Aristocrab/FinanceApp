@@ -23,4 +23,6 @@ public class BaseController : ControllerBase
             return Guid.Parse(userClaims.FirstOrDefault(x => x.Type == "userId")!.Value);
         }
     }
+
+    protected bool DemoMode => UserId == new Guid("D3AC2B50-6CD3-4D38-8EC8-C8D3827FB3EF");
 }

@@ -46,6 +46,8 @@ public class TransactionsController : BaseController
     [HttpPost("new")]
     public Task<Guid> CreateTransaction([FromBody] CreateTransactionDto createTransactionDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = createTransactionDto.Adapt<CreateTransactionCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);
@@ -54,6 +56,8 @@ public class TransactionsController : BaseController
     [HttpPost("transfer")]
     public Task<Guid> TransferTransaction([FromBody] TransferTransactionDto transferTransactionDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = transferTransactionDto.Adapt<TransferTransactionCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);
@@ -62,6 +66,8 @@ public class TransactionsController : BaseController
     [HttpPut("update")]
     public Task<Guid> UpdateTransaction([FromBody] UpdateTransactionDto updateTransactionDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = updateTransactionDto.Adapt<UpdateTransactionCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);
@@ -70,6 +76,8 @@ public class TransactionsController : BaseController
     [HttpDelete("delete")]
     public Task DeleteCategory([FromBody] DeleteTransactionDto deleteTransactionDto)
     {
+        if (DemoMode) return Task.FromResult(Guid.Empty);
+        
         var command = deleteTransactionDto.Adapt<DeleteTransactionCommand>();
         command.UserId = UserId;
         return _mediator.Send(command);

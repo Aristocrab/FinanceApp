@@ -23,7 +23,7 @@ export class AuthModalComponent {
       password: ''
     }
     
-    constructor(private userService: UsersService) { }
+    constructor(private usersService: UsersService) { }
     
     buttonClicked(form: NgForm, event: any) {
       if(!form.form.valid) {
@@ -55,20 +55,20 @@ export class AuthModalComponent {
     }
     
     demoLogin() {
-      this.userService.login({
+      this.usersService.login({
         username: 'user',
         password: 'pass'
       }).subscribe();
     }
     
     login() {
-      this.userService.login(this.loginUser)
+      this.usersService.login(this.loginUser)
       .pipe(catchError((err) => this.catchApiError(err)))
       .subscribe();
     }
     
     register() {
-      this.userService.register(this.registerUser)
+      this.usersService.register(this.registerUser)
       .pipe(catchError((err) => this.catchApiError(err)))
       .subscribe();
     }

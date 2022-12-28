@@ -33,7 +33,6 @@ export class AuthModalComponent {
     }
     
     getErrorMessage(err: any): string {
-      console.log(JSON.parse(err.error));
       switch(err.status) {
         case 400:
           return JSON.parse(err.error)[0].ErrorMessage;

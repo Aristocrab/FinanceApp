@@ -43,7 +43,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, User>
             new Account
             {
                 Name = "Cash",
-                Balance = 100,
+                Balance = 0,
                 Currency = Currency.UAH,
                 Icon = 0,
                 User = user

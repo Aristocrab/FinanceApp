@@ -40,6 +40,7 @@ export class UpdateTransactionModalComponent {
       
       this.transactionsService.incomeTransactionsUpdated.emit();
       this.transactionsService.expensesTransactionsUpdated.emit();
+      this.accountsService.selectedAccountUpdated.emit();
       this.modalService.dismissAll();
     }
   );

@@ -13,7 +13,7 @@ Backend:
 - MediatR
 - Mapster
 - FluentValidation
-- JWT Auth
+- JWT
 
 Frontend:
 - Angular

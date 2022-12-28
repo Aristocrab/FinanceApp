@@ -28,7 +28,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, User>
         
         if (_dbContext.Users.Any(x => x.Username == request.Username))
         {
-            throw new UserNotFoundException(request.Username);
+            throw new UserExistsException(request.Username);
         }
 
         var user = new User

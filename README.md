@@ -1,5 +1,5 @@
-# FinanceApp - ASP.NET Core & Angular. [Demo](https://aristocrab.github.io/FinanceApp), [Swagger](https://aristocrab.me/swagger/index.html)
-[![](https://i.imgur.com/ifckA5h.png)](https://aristocrab.github.io/FinanceApp)
+# FinanceApp - ASP.NET Core & Angular.
+![](https://i.imgur.com/ifckA5h.png)
 
 ## Description
 Finance app project. You can create/edit transactions, accounts and categories.
